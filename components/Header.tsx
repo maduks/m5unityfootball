@@ -7,7 +7,6 @@ import { usePathname } from 'next/navigation'
 
 export default function Header() {
   const [isSticky, setIsSticky] = useState(false)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
   const pathname = usePathname()
 
   useEffect(() => {
@@ -20,19 +19,6 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  useEffect(() => {
-    // Initialize SlickNav for mobile menu if available
-    if (typeof window !== 'undefined' && (window as any).jQuery) {
-      const $ = (window as any).jQuery
-      if ($.fn.slicknav) {
-        $('#menu').slicknav({
-          label: '',
-          prependTo: '.responsive-menu',
-        })
-      }
-    }
-  }, [])
-
   return (
     <header className={`main-header ${isSticky ? 'active' : ''}`}>
       <div className="header-sticky">
@@ -42,7 +28,7 @@ export default function Header() {
               <Image src="/images/logo.svg" alt="Logo" width={150} height={50} />
             </Link>
 
-            <div className={`collapse navbar-collapse main-menu ${isMenuOpen ? 'show' : ''}`}>
+            <div className="collapse navbar-collapse main-menu">
               <div className="nav-menu-wrapper">
                 <ul className="navbar-nav mr-auto" id="menu">
                   <li className="nav-item">
@@ -93,11 +79,7 @@ export default function Header() {
                 </Link>
               </div>
             </div>
-            <div className="navbar-toggle" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+            <div className="navbar-toggle"></div>
           </div>
         </nav>
         <div className="responsive-menu"></div>

@@ -81,12 +81,23 @@
       });
     }
 
-    // Initialize SlickNav if available
+    // Initialize SlickNav if available and not already initialized
     if ($ && $.fn.slicknav) {
-      $("#menu").slicknav({
-        label: "",
-        prependTo: ".responsive-menu",
-      });
+      // Check if SlickNav is already initialized by looking for existing slicknav menu
+      const existingSlickNav = document.querySelector(".slicknav_menu");
+      const menuElement = document.getElementById("menu");
+
+      // Only initialize if menu exists and SlickNav hasn't been initialized yet
+      if (menuElement && !existingSlickNav) {
+        try {
+          $("#menu").slicknav({
+            label: "",
+            prependTo: ".responsive-menu",
+          });
+        } catch (e) {
+          console.warn("SlickNav initialization error:", e);
+        }
+      }
     }
 
     // Initialize Bootstrap components if needed

@@ -68,3 +68,80 @@ h1, h2, h3, h4, h5, h6 {
   flex-shrink: 0;
 }
 
+/* Fix for mobile hamburger menu - prevent duplicate and scattered menu */
+/* Ensure only one hamburger button appears - remove any duplicate spans */
+.navbar-toggle > span:not(.slicknav_icon) {
+  display: none !important;
+}
+
+/* Ensure slicknav menu is properly contained and positioned */
+.responsive-menu {
+  position: relative;
+}
+
+.slicknav_menu {
+  position: absolute !important;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100% !important;
+  z-index: 9998;
+  max-width: 100%;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure menu items are properly contained */
+.slicknav_nav {
+  list-style: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  display: block;
+}
+
+.slicknav_nav li {
+  display: block !important;
+  width: 100% !important;
+  float: none !important;
+  clear: both;
+}
+
+.slicknav_nav ul {
+  width: 100% !important;
+  display: block !important;
+}
+
+/* Prevent menu from appearing scattered on mobile */
+@media only screen and (max-width: 991px) {
+  /* Ensure hamburger button container is clean */
+  .navbar-toggle {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+    flex-shrink: 0;
+  }
+  
+  /* Only show SlickNav button, hide any manual hamburger spans */
+  .navbar-toggle > span:not(.slicknav_icon):not(.slicknav_icon-bar) {
+    display: none !important;
+  }
+  
+  /* Ensure responsive menu is properly positioned */
+  .responsive-menu {
+    position: relative;
+    width: 100%;
+    clear: both;
+  }
+  
+  /* Ensure menu doesn't overflow or appear scattered */
+  .slicknav_menu {
+    overflow: hidden;
+    max-width: 100vw;
+  }
+  
+  .slicknav_nav {
+    overflow: hidden;
+    width: 100%;
+  }
+}
+
