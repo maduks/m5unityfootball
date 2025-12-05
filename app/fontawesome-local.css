@@ -1,0 +1,88 @@
+/* Font Awesome Local - Using local webfonts from public/webfonts/ */
+/* This MUST be imported AFTER all.min.css to override font-face declarations */
+/* Prevents browser from trying to load missing fonts (fa-regular-400, .ttf files) */
+
+/* Override Font Awesome 6 Brands */
+@font-face {
+  font-family: "Font Awesome 6 Brands" !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-display: block !important;
+  src: url("/webfonts/fa-brands-400.woff2") format("woff2") !important;
+}
+
+/* Override Font Awesome 6 Free - use solid for both regular and bold */
+@font-face {
+  font-family: "Font Awesome 6 Free" !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-display: block !important;
+  src: url("/webfonts/fa-solid-900.woff2") format("woff2") !important;
+}
+
+@font-face {
+  font-family: "Font Awesome 6 Free" !important;
+  font-style: normal !important;
+  font-weight: 900 !important;
+  font-display: block !important;
+  src: url("/webfonts/fa-solid-900.woff2") format("woff2") !important;
+}
+
+/* Override Font Awesome 5 compatibility */
+@font-face {
+  font-family: "Font Awesome 5 Brands" !important;
+  font-display: block !important;
+  font-weight: 400 !important;
+  src: url("/webfonts/fa-brands-400.woff2") format("woff2") !important;
+}
+
+@font-face {
+  font-family: "Font Awesome 5 Free" !important;
+  font-display: block !important;
+  font-weight: 400 !important;
+  src: url("/webfonts/fa-solid-900.woff2") format("woff2") !important;
+}
+
+@font-face {
+  font-family: "Font Awesome 5 Free" !important;
+  font-display: block !important;
+  font-weight: 900 !important;
+  src: url("/webfonts/fa-solid-900.woff2") format("woff2") !important;
+}
+
+/* Override FontAwesome (v4 compatibility) to prevent loading missing fonts */
+@font-face {
+  font-family: "FontAwesome" !important;
+  font-display: block !important;
+  src: url("/webfonts/fa-solid-900.woff2") format("woff2") !important;
+}
+
+/* Ensure Font Awesome classes use correct font family with !important */
+.fa,
+.fas,
+.fa-solid {
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 900 !important;
+}
+
+.fab,
+.fa-brands {
+  font-family: "Font Awesome 6 Brands" !important;
+  font-weight: 400 !important;
+}
+
+/* Base styles - all.min.css provides the --fa variables for icon content */
+.fa,
+.fas,
+.far,
+.fal,
+.fad,
+.fab {
+  -moz-osx-font-smoothing: grayscale !important;
+  -webkit-font-smoothing: antialiased !important;
+  display: inline-block !important;
+  font-style: normal !important;
+  font-variant: normal !important;
+  text-rendering: auto !important;
+  line-height: 1 !important;
+}

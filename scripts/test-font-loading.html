@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    @font-face {
+      font-family: "Font Awesome 6 Free";
+      src: url("/webfonts/fa-solid-900.woff2") format("woff2");
+    }
+    .test-icon {
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+    }
+    .test-icon::before {
+      content: "\f04b"; /* play icon */
+    }
+  </style>
+</head>
+<body>
+  <h1>Font Loading Test</h1>
+  <p>If you see a play icon below, fonts are loading:</p>
+  <div class="test-icon" style="font-size: 48px;"></div>
+  <p>Check browser DevTools → Network tab for font requests</p>
+</body>
+</html>

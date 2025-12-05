@@ -1,0 +1,63 @@
+import type { Metadata } from 'next'
+import { Bebas_Neue, Manrope } from 'next/font/google'
+import './globals.css'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import Preloader from '@/components/Preloader'
+import ClientScripts from '@/components/ClientScripts'
+import ScriptLoader from '@/components/ScriptLoader'
+import Script from 'next/script'
+
+const bebasNeue = Bebas_Neue({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-bebas-neue',
+})
+
+const manrope = Manrope({
+  weight: ['200', '300', '400', '500', '600', '700', '800'],
+  subsets: ['latin'],
+  variable: '--font-manrope',
+})
+
+export const metadata: Metadata = {
+  title: 'M5 Unity Football Cup - Mgbowo Unity Football Cup Competition',
+  description: 'Uniting Mgbowolese through the beautiful game. Annual football competition since 2018, bringing together 6 teams from 5 villages of Mgbowo community.',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en" className={`${bebasNeue.variable} ${manrope.variable}`}>
+      <head>
+        <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png" />
+        {/* Preload local webfonts for faster loading */}
+        <link
+          rel="preload"
+          href="/webfonts/fa-brands-400.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/webfonts/fa-solid-900.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+      </head>
+      <body>
+        <ScriptLoader />
+        <Preloader />
+        <Header />
+        <main>{children}</main>
+        <Footer />
+        <ClientScripts />
+      </body>
+    </html>
+  )
+}

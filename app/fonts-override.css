@@ -1,0 +1,75 @@
+/* Font Awesome Font Override - Load AFTER all.min.css */
+/* This ensures our font-face declarations override the ones in all.min.css */
+/* Only includes fonts we actually have: fa-brands-400.woff2 and fa-solid-900.woff2 */
+
+/* Override Font Awesome 6 Brands - MUST use !important to override all.min.css */
+@font-face {
+  font-family: "Font Awesome 6 Brands" !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-display: block !important;
+  src: url("/webfonts/fa-brands-400.woff2") format("woff2") !important;
+}
+
+/* Override Font Awesome 6 Free - use solid for both regular and bold */
+@font-face {
+  font-family: "Font Awesome 6 Free" !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-display: block !important;
+  src: url("/webfonts/fa-solid-900.woff2") format("woff2") !important;
+}
+
+@font-face {
+  font-family: "Font Awesome 6 Free" !important;
+  font-style: normal !important;
+  font-weight: 900 !important;
+  font-display: block !important;
+  src: url("/webfonts/fa-solid-900.woff2") format("woff2") !important;
+}
+
+/* Font Awesome 5 compatibility */
+@font-face {
+  font-family: "Font Awesome 5 Brands" !important;
+  font-display: block !important;
+  font-weight: 400 !important;
+  src: url("/webfonts/fa-brands-400.woff2") format("woff2") !important;
+}
+
+@font-face {
+  font-family: "Font Awesome 5 Free" !important;
+  font-display: block !important;
+  font-weight: 400 !important;
+  src: url("/webfonts/fa-solid-900.woff2") format("woff2") !important;
+}
+
+@font-face {
+  font-family: "Font Awesome 5 Free" !important;
+  font-display: block !important;
+  font-weight: 900 !important;
+  src: url("/webfonts/fa-solid-900.woff2") format("woff2") !important;
+}
+
+/* Ensure Font Awesome classes use the correct font */
+.fa,
+.fas,
+.fa-solid {
+  font-family: "Font Awesome 6 Free" !important;
+  font-weight: 900 !important;
+}
+
+.fab,
+.fa-brands {
+  font-family: "Font Awesome 6 Brands" !important;
+  font-weight: 400 !important;
+}
+
+/* Force font loading by adding a test element */
+body::before {
+  content: "";
+  font-family: "Font Awesome 6 Free";
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}

@@ -1,0 +1,103 @@
+'use client'
+
+import Script from 'next/script'
+
+export default function ScriptLoader() {
+  return (
+    <>
+      {/* jQuery must load first - before page becomes interactive */}
+      <Script
+        id="jquery"
+        src="/js/jquery-3.7.1.min.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="bootstrap"
+        src="/js/bootstrap.min.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="magiccursor"
+        src="/js/magiccursor.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="parallaxie"
+        src="/js/parallaxie.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="gsap"
+        src="/js/gsap.min.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="scrolltrigger"
+        src="/js/ScrollTrigger.min.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="splittext"
+        src="/js/SplitText.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="wow"
+        src="/js/wow.min.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="function"
+        src="/js/function.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="SmoothScroll"
+        src="/js/SmoothScroll.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="swiper"
+        src="/js/swiper-bundle.min.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="waypoints"
+        src="/js/jquery.waypoints.min.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="validator"
+        src="/js/validator.min.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="slicknav"
+        src="/js/jquery.slicknav.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="magnific-popup"
+        src="/js/jquery.magnific-popup.min.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="swiper"
+        src="/js/swiper-bundle.min.js"
+        strategy="beforeInteractive"
+      />
+      <Script
+        id="counterup"
+        src="/js/jquery.counterup.min.js"
+        strategy="beforeInteractive"
+      />
+    
+      <Script
+        id="jquery.mb.YTPlayer"
+        src="/js/jquery.mb.YTPlayer.min.js"
+        strategy="beforeInteractive"
+      />
+    </>
+  )
+}
+

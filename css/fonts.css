@@ -1,0 +1,53 @@
+/* Font Awesome Font Faces - Custom override to ensure webfonts load correctly */
+/* This MUST come AFTER all.min.css to properly override font-face declarations */
+/* Only includes fonts we actually have: fa-brands-400.woff2 and fa-solid-900.woff2 */
+/* This prevents 404 errors for missing fonts (fa-regular-400, .ttf files) */
+/* IMPORTANT: Use absolute paths (/webfonts/) for Next.js compatibility */
+
+/* Override Font Awesome 6 Brands */
+@font-face {
+  font-family: "Font Awesome 6 Brands";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("/webfonts/fa-brands-400.woff2") format("woff2");
+}
+
+/* Override Font Awesome 6 Free - use solid for both regular and bold */
+@font-face {
+  font-family: "Font Awesome 6 Free";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("/webfonts/fa-solid-900.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Font Awesome 6 Free";
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url("/webfonts/fa-solid-900.woff2") format("woff2");
+}
+
+/* Font Awesome 5 compatibility */
+@font-face {
+  font-family: "Font Awesome 5 Brands";
+  font-display: block;
+  font-weight: 400;
+  src: url("/webfonts/fa-brands-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Font Awesome 5 Free";
+  font-display: block;
+  font-weight: 400;
+  src: url("/webfonts/fa-solid-900.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Font Awesome 5 Free";
+  font-display: block;
+  font-weight: 900;
+  src: url("/webfonts/fa-solid-900.woff2") format("woff2");
+}

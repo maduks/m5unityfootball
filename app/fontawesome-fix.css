@@ -1,0 +1,53 @@
+/* Font Awesome Fix - Ensure icons display correctly */
+/* This file ensures Font Awesome classes work even if CDN fails */
+
+.fa,
+.fas,
+.far,
+.fal,
+.fad,
+.fab {
+  font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands";
+  font-weight: 900;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+.fab,
+.fa-brands {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+}
+
+/* Common icon content - fallback if CDN doesn't load */
+.fa-play::before {
+  content: "\f04b";
+}
+
+.fa-star::before {
+  content: "\f005";
+}
+
+.fa-instagram::before {
+  content: "\f16d";
+}
+
+.fa-facebook-f::before {
+  content: "\f39e";
+}
+
+.fa-x-twitter::before {
+  content: "\e61b";
+}
+
+.fa-pinterest-p::before {
+  content: "\f231";
+}
+
+
+

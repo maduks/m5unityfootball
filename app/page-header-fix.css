@@ -1,0 +1,14 @@
+/* Page Header Color Fix - Must load after all other CSS */
+/* This ensures colors are applied correctly */
+
+.page-header .page-header-box h1,
+.page-header-box h1.text-anime-style-2,
+.page-header-box h1 {
+  color: #FFFFFF !important; /* Direct white color */
+}
+
+.page-header .page-header-box h1 span,
+.page-header-box h1.text-anime-style-2 span,
+.page-header-box h1 span {
+  color: #C42221 !important; /* Direct accent color */
+}
