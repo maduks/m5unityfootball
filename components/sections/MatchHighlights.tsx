@@ -8,28 +8,28 @@ import 'swiper/css'
 
 const highlights = [
   {
-    image: '/images/match-highlight-image-1.jpg',
-    title: 'Epic Showdown! Thunder FC vs United - All the Goal & Drama!',
+    image: '/images/image_highlights.jpeg',
+    title: 'Mgbowo Unity Cup 2024: Epic Village Derby - All Goals & Drama!',
     duration: '5:27 mins',
   },
   {
-    image: '/images/match-highlight-image-2.jpg',
-    title: 'Leo Storm\'s Hat-Trick! Thunder FC vs Blaze United Highlights',
+    image: '/images/image_female_participation.jpeg',
+    title: 'Ohaire United FC vs Village Champions - Full Match Highlights',
     duration: '5:27 mins',
   },
   {
-    image: '/images/match-highlight-image-3.jpg',
-    title: 'United Strikes Back: Drama Unfolds Against Thunder',
+    image: '/images/image_five.jpeg',
+    title: 'Last-Minute Winner! Five Villages Clash - Mgbowo Unity Cup',
     duration: '5:27 mins',
   },
   {
-    image: '/images/match-highlight-image-4.jpg',
-    title: 'Tension, Technique, and Triumph - Full Match Story',
+    image: '/images/hglight.jpeg',
+    title: 'Kpakpando 1 Cup: Uniting Mgbowolese Through Football',
     duration: '5:27 mins',
   },
   {
-    image: '/images/match-highlight-image-5.jpg',
-    title: 'Blaze Ignites Late Comeback - A Match to Remember',
+    image: '/images/chair.jpeg',
+    title: 'Mgbowo Unity Cup Semi-Finals: Village Rivals Battle',
     duration: '5:27 mins',
   },
 ]

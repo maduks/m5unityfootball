@@ -57,12 +57,12 @@ export default function OurFaqs() {
                   </div>
                 </div>
                 <div className="faqs-img">
-                  <Image src="/images/faqs-image-1.jpg" alt="FAQs" width={400} height={300} />
+                  <Image src="/images/image_four.jpeg" alt="FAQs" width={400} height={300} />
                 </div>
               </div>
               <div className="faqs-image-box-2">
                 <div className="faqs-img">
-                  <Image src="/images/faqs-image-2.jpg" alt="FAQs" width={400} height={300} />
+                  <Image src="/images/image_hgih.jpeg" alt="FAQs" width={400} height={300} />
                 </div>
               </div>
             </div>
