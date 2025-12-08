@@ -33,7 +33,7 @@ jobs:
           rm -rf node_modules
           rm -rf .git
 
-      # Deploy files to FTP server
+      # Deploy files to FTP server.
       - name: Deploy via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
