@@ -14,7 +14,7 @@ export default function FaqsPage() {
   return (
     <>
       <PageHeader title="frequently asked" subtitle="question" />
-      <ScrollingTicker />
+      {/* <ScrollingTicker /> */}
       <PageFaqs />
     </>
   )

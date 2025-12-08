@@ -25,7 +25,7 @@ export default function Header() {
         <nav className="navbar navbar-expand-lg">
           <div className="container">
             <Link className="navbar-brand" href="/">
-              <Image src="/images/logo.svg" alt="Logo" width={150} height={50} />
+              <Image src="/images/m5logos.png" alt="Logo" width={100} height={100} />
             </Link>
 
             <div className="collapse navbar-collapse main-menu">
@@ -57,9 +57,9 @@ export default function Header() {
                       <li className="nav-item">
                         <Link className="nav-link" href="/image-gallery">Image Gallery</Link>
                       </li>
-                      <li className="nav-item">
+                      {/* <li className="nav-item">
                         <Link className="nav-link" href="/video-gallery">Video Gallery</Link>
-                      </li>
+                      </li> */}
                       <li className="nav-item">
                         <Link className="nav-link" href="/faqs">FAQs</Link>
                       </li>

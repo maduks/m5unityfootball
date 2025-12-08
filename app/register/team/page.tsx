@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 
@@ -20,9 +20,52 @@ export default function TeamRegistrationPage() {
     agreeToTerms: false,
   })
 
-
-
   const [isSubmitting, setIsSubmitting] = useState(false)
+  
+  // Countdown timer state
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  })
+  const [isRegistrationClosed, setIsRegistrationClosed] = useState(false)
+  
+  // Set registration deadline (change this to your actual deadline)
+  const registrationDeadline = new Date('2025-12-23T23:59:59').getTime()
+  
+  // Countdown timer effect
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date().getTime()
+      const difference = registrationDeadline - now
+
+      if (difference <= 0) {
+        setIsRegistrationClosed(true)
+        return { days: 0, hours: 0, minutes: 0, seconds: 0 }
+      }
+
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((difference % (1000 * 60)) / 1000),
+      }
+    }
+
+    setTimeLeft(calculateTimeLeft())
+
+    const timer = setInterval(() => {
+      const newTimeLeft = calculateTimeLeft()
+      setTimeLeft(newTimeLeft)
+      if (newTimeLeft.days === 0 && newTimeLeft.hours === 0 && newTimeLeft.minutes === 0 && newTimeLeft.seconds === 0) {
+        setIsRegistrationClosed(true)
+        clearInterval(timer)
+      }
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [registrationDeadline])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target
@@ -36,6 +79,13 @@ export default function TeamRegistrationPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (isSubmitting) return
+    
+    // Check if registration is closed
+    if (isRegistrationClosed) {
+      alert('Registration has closed. The deadline has passed.')
+      return
+    }
+    
     setIsSubmitting(true)
 
     try {
@@ -85,6 +135,175 @@ export default function TeamRegistrationPage() {
                   commencement of the competition. In the event of failure to pay before kick-off date, or anytime 
                   during the competition, the organizers shall deduct the ₦10,000 from the team&apos;s prize money.
                 </p>
+                
+                {/* Countdown Timer */}
+                <div className="wow fadeInUp" data-wow-delay="0.6s" style={{
+                  marginTop: '40px',
+                  padding: '30px 20px',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
+                  borderRadius: '20px',
+                  border: '3px solid rgba(255,255,255,0.3)',
+                  backdropFilter: 'blur(10px)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+                }}>
+                  <h4 style={{
+                    color: 'var(--white-grey)',
+                    marginBottom: '25px',
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                    fontFamily: 'var(--font-bebas-neue)',
+                    textAlign: 'center',
+                    letterSpacing: '2px',
+                    textTransform: 'uppercase',
+                    // textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                  }}>
+                    Registration Closes In:
+                  </h4>
+                  {isRegistrationClosed ? (
+                    <div style={{
+                      textAlign: 'center',
+                      color: '#ff4444',
+                      fontSize: '32px',
+                      fontWeight: 'bold',
+                      fontFamily: 'var(--font-bebas-neue)',
+                      letterSpacing: '2px',
+                      textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                    }}>
+                      Registration Closed
+                    </div>
+                  ) : (
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      gap: '1px',
+                      flexWrap: 'nowrap',
+                      alignItems: 'center',
+                      overflowX: 'auto',
+                      padding: '0 10px'
+                    }}>
+                      <div style={{
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)',
+                        padding: '5px 12px',
+                        borderRadius: '12px',
+                        minWidth: '70px',
+                        flex: '1 1 0',
+                        border: '2px solid rgba(255,255,255,0.4)',
+                        // boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+                        transition: 'transform 0.3s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '38px',
+                          fontWeight: '800',
+                          color: 'var(--accent-color)',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          lineHeight: '1',
+                          textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                          letterSpacing: '1px'
+                        }}>{String(timeLeft.days).padStart(2, '0')}</div>
+                        <div style={{ 
+                          fontSize: '13px', 
+                          color: '#e84d01', 
+                          marginTop: '8px',
+                          fontWeight: 'bold',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          letterSpacing: '0.5px',
+                          textTransform: 'uppercase'
+                        }}>Days</div>
+                      </div>
+                      <div style={{
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)',
+                        padding: '5px 12px',
+                        borderRadius: '12px',
+                        minWidth: '70px',
+                        flex: '1 1 0',
+                        border: '2px solid rgba(255,255,255,0.4)',
+                        // boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+                        transition: 'transform 0.3s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '38px',
+                          fontWeight: '800',
+                          color: 'var(--accent-color)',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          lineHeight: '1',
+                          textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                          letterSpacing: '1px'
+                        }}>{String(timeLeft.hours).padStart(2, '0')}</div>
+                        <div style={{ 
+                          fontSize: '13px', 
+                          color: '#e84d01', 
+                          marginTop: '8px',
+                          fontWeight: 'bold',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          letterSpacing: '0.5px',
+                          textTransform: 'uppercase'
+                        }}>Hours</div>
+                      </div>
+                      <div style={{
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)',
+                        padding: '5px 12px',
+                        borderRadius: '12px',
+                        minWidth: '70px',
+                        flex: '1 1 0',
+                        border: '2px solid rgba(255,255,255,0.4)',
+                        // boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+                        transition: 'transform 0.3s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '38px',
+                          fontWeight: '800',
+                          color: 'var(--accent-color)',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          lineHeight: '1',
+                          textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                          letterSpacing: '1px'
+                        }}>{String(timeLeft.minutes).padStart(2, '0')}</div>
+                        <div style={{ 
+                          fontSize: '13px', 
+                          color: '#e84d01', 
+                          marginTop: '8px',
+                          fontWeight: 'bold',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          letterSpacing: '0.5px',
+                          textTransform: 'uppercase'
+                        }}>Minutes</div>
+                      </div>
+                      <div style={{
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)',
+                        padding: '5px 12px',
+                        borderRadius: '12px',
+                        minWidth: '70px',
+                        flex: '1 1 0',
+                        border: '2px solid rgba(255,255,255,0.4)',
+                        // boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+                        transition: 'transform 0.3s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '38px',
+                          fontWeight: '800',
+                          color: 'var(--accent-color)',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          lineHeight: '1',
+                          textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                          letterSpacing: '1px'
+                        }}>{String(timeLeft.seconds).padStart(2, '0')}</div>
+                        <div style={{ 
+                          fontSize: '13px', 
+                          color: '#e84d01', 
+                          marginTop: '8px',
+                          fontWeight: 'bold',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          letterSpacing: '0.5px',
+                          textTransform: 'uppercase'
+                        }}>Seconds</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -366,10 +585,34 @@ export default function TeamRegistrationPage() {
 
                       <div className="col-lg-12">
                         <div className="contact-form-btn">
-                          <button type="submit" className="btn-default btn-highlighted">
-                            <span>Submit Team Registration</span>
+                          <button 
+                            type="submit" 
+                            className="btn-default btn-highlighted"
+                            disabled={isRegistrationClosed || isSubmitting}
+                            style={{
+                              opacity: isRegistrationClosed ? 0.5 : 1,
+                              cursor: isRegistrationClosed ? 'not-allowed' : 'pointer'
+                            }}
+                          >
+                            <span>
+                              {isRegistrationClosed
+                                ? 'Registration Closed'
+                                : isSubmitting
+                                  ? 'Submitting...'
+                                  : 'Submit Team Registration'}
+                            </span>
                           </button>
                         </div>
+                        {isRegistrationClosed && (
+                          <p style={{
+                            textAlign: 'center',
+                            color: '#ff4444',
+                            marginTop: '15px',
+                            fontSize: '14px'
+                          }}>
+                            Registration deadline has passed. Please contact the organizing committee for assistance.
+                          </p>
+                        )}
                       </div>
                     </div>
                   </form>

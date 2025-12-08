@@ -62,9 +62,32 @@ h1, h2, h3, h4, h5, h6 {
   height: auto;
 }
 
+/* Fix About Us section layout - prevent scattered content */
+.about-us-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-us-body {
+  display: flex !important;
+  flex-direction: column !important;
+  flex-wrap: nowrap !important;
+  gap: 30px !important;
+  width: 100% !important;
+}
+
+.about-us-list {
+  width: 100% !important;
+}
+
+.about-us-details {
+  width: 100% !important;
+}
+
 /* Ensure contact-us-circle maintains proper sizing */
 .contact-us-circle {
   flex-shrink: 0;
+  margin-top: 10px;
 }
 
 /* Fix for mobile hamburger menu - prevent duplicate and scattered menu */

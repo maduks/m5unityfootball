@@ -34,36 +34,10 @@ export default function PageContactUs() {
                   <Image src="/images/icon-phone-white.svg" alt="Phone" width={30} height={30} />
                 </div>
                 <div className="contact-info-content">
-                  <h3>Phone Number</h3>
+                  <h3>For Inquiries, Call</h3>
                   <p>
-                    <a href="tel:+321654987">+(91) - 321 654 987</a>
+                    <a href="tel:+2348129649240">+234 812 964 9240</a>
                   </p>
-                  <p>
-                    <a href="tel:+456987123">+(91) - 123 456 789</a>
-                  </p>
-                </div>
-              </div>
-              <div className="contact-info-item wow fadeInUp" data-wow-delay="0.2s">
-                <div className="icon-box">
-                  <Image src="/images/icon-mail-white.svg" alt="Email" width={30} height={30} />
-                </div>
-                <div className="contact-info-content">
-                  <h3>E-mail address</h3>
-                  <p>
-                    <a href="mailto:demo@domainname.com">demo@domainname.com</a>
-                  </p>
-                  <p>
-                    <a href="mailto:support@domainname.com">support@domainname.com</a>
-                  </p>
-                </div>
-              </div>
-              <div className="contact-info-item wow fadeInUp" data-wow-delay="0.4s">
-                <div className="icon-box">
-                  <Image src="/images/icon-location-white.svg" alt="Location" width={30} height={30} />
-                </div>
-                <div className="contact-info-content">
-                  <h3>location</h3>
-                  <p>2972 Westheimer Road, Santa Ana City, Illinois, UK</p>
                 </div>
               </div>
             </div>

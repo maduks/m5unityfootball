@@ -1,11 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 
 const villages = ['Ameta', 'Alechara', 'Ezioha', 'Inyi', 'Imeama']
 const positions = ['Goalkeeper', 'Defender', 'Midfielder', 'Forward', 'Winger']
+
+interface Bank {
+  name: string
+  uuid: string
+  interInstitutionCode: string
+  sortCode: string
+  directDebitEnabled: boolean
+}
 
 export default function PlayerRegistrationPage() {
   const router = useRouter()
@@ -26,6 +34,139 @@ export default function PlayerRegistrationPage() {
     agreeToTerms: false,
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [banks, setBanks] = useState<Bank[]>([])
+  const [selectedBank, setSelectedBank] = useState<string>('')
+  const [accountNumber, setAccountNumber] = useState<string>('')
+  const [isVerifying, setIsVerifying] = useState(false)
+  const [validationError, setValidationError] = useState<string>('')
+  const [isNameVerified, setIsNameVerified] = useState(false)
+  
+  // Countdown timer state
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+  })
+  const [isRegistrationClosed, setIsRegistrationClosed] = useState(false)
+  
+  // Set registration deadline (change this to your actual deadline)
+  const registrationDeadline = new Date('2025-12-23T23:59:59').getTime()
+
+  // Countdown timer effect
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = new Date().getTime()
+      const difference = registrationDeadline - now
+
+      if (difference <= 0) {
+        setIsRegistrationClosed(true)
+        return { days: 0, hours: 0, minutes: 0, seconds: 0 }
+      }
+
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((difference % (1000 * 60)) / 1000),
+      }
+    }
+
+    setTimeLeft(calculateTimeLeft())
+
+    const timer = setInterval(() => {
+      const newTimeLeft = calculateTimeLeft()
+      setTimeLeft(newTimeLeft)
+      if (newTimeLeft.days === 0 && newTimeLeft.hours === 0 && newTimeLeft.minutes === 0 && newTimeLeft.seconds === 0) {
+        setIsRegistrationClosed(true)
+        clearInterval(timer)
+      }
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [registrationDeadline])
+
+  // Fetch banks on component mount
+  useEffect(() => {
+    const fetchBanks = async () => {
+      try {
+        const response = await fetch('https://api.pickwave.com.ng/api/collection/get-banks', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+        })
+        const data = await response.json()
+        if (data?.data?.banks) {
+          setBanks(data.data.banks)
+        }
+      } catch (error) {
+        console.error('Failed to fetch banks:', error)
+        setValidationError('Failed to load banks. Please refresh the page.')
+      }
+    }
+    fetchBanks()
+  }, [])
+
+  // Validate account when account number is entered
+  useEffect(() => {
+    if (selectedBank && accountNumber && accountNumber.length >= 10) {
+      const validateAccount = async () => {
+        setIsVerifying(true)
+        setValidationError('')
+        try {
+          const selectedBankData = banks.find(bank => bank.uuid === selectedBank)
+          if (!selectedBankData) {
+            setValidationError('Invalid bank selected')
+            setIsVerifying(false)
+            return
+          }
+
+          const response = await fetch('https://api.pickwave.com.ng/api/collection/validate-account', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              accountNumber,
+              amount: 1, // Minimal amount for validation
+              bankUID: selectedBankData.uuid,
+            }),
+          })
+
+          const data = await response.json()
+          
+          if (data?.data?.responseCode === 0 && data?.data?.destinationAccountHolderNameAtBank) {
+            setFormData(prev => ({ ...prev, playerName: data.data.destinationAccountHolderNameAtBank }))
+            setIsNameVerified(true)
+            setValidationError('')
+          } else {
+            setValidationError(data?.data?.message || 'Account validation failed. Please check your account number.')
+            setIsNameVerified(false)
+            setFormData(prev => ({ ...prev, playerName: '' }))
+          }
+        } catch (error) {
+          console.error('Account validation failed:', error)
+          setValidationError('Failed to validate account. Please try again.')
+          setIsNameVerified(false)
+          setFormData(prev => ({ ...prev, playerName: '' }))
+        } finally {
+          setIsVerifying(false)
+        }
+      }
+
+      // Debounce validation
+      const timeoutId = setTimeout(validateAccount, 1000)
+      return () => clearTimeout(timeoutId)
+    } else if (accountNumber.length > 0 && accountNumber.length < 10) {
+      setValidationError('Account number must be at least 10 digits')
+      setIsNameVerified(false)
+      setFormData(prev => ({ ...prev, playerName: '' }))
+    } else if (!accountNumber) {
+      // Reset when account number is cleared
+      setValidationError('')
+      setIsNameVerified(false)
+      setFormData(prev => ({ ...prev, playerName: '' }))
+    } else {
+      setValidationError('')
+    }
+  }, [accountNumber, selectedBank, banks])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target
@@ -39,6 +180,19 @@ export default function PlayerRegistrationPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (isSubmitting) return
+    
+    // Check if registration is closed
+    if (isRegistrationClosed) {
+      alert('Registration has closed. The deadline has passed.')
+      return
+    }
+    
+    // Check if name is verified
+    if (!isNameVerified || !formData.playerName) {
+      alert('Please verify your bank account to populate your name before submitting.')
+      return
+    }
+    
     setIsSubmitting(true)
 
     try {
@@ -82,10 +236,178 @@ export default function PlayerRegistrationPage() {
                   Join M5 Unity Football Cup Competition <span>2025 Edition</span>
                 </h2>
                 <p className="wow fadeInUp" data-wow-delay="0.4s">
-                  Fill and submit this form to the Central Organizing Committee through the Media and Publicity Committee 
-                  on or before two weeks to the commencement of the competition. You must provide your NIN for digital 
-                  verification of your identity.
+                  Fill and submit this form to participate in the competition. You must provide your bank account details 
+                  for verification of your identity.
                 </p>
+                
+                {/* Countdown Timer */}
+                <div className="wow fadeInUp" data-wow-delay="0.6s" style={{
+                  marginTop: '40px',
+                  padding: '30px 20px',
+                  background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
+                  borderRadius: '20px',
+                  border: '3px solid rgba(255,255,255,0.3)',
+                  backdropFilter: 'blur(10px)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+                }}>
+                  <h4 style={{
+                    color: 'var(--white-grey)',
+                    marginBottom: '25px',
+                    fontSize: '24px',
+                    fontWeight: 'bold',
+                    fontFamily: 'var(--font-bebas-neue)',
+                    textAlign: 'center',
+                    letterSpacing: '2px',
+                    textTransform: 'uppercase',
+                    // textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                  }}>
+                    Registration Closes In:
+                  </h4>
+                  {isRegistrationClosed ? (
+                    <div style={{
+                      textAlign: 'center',
+                      color: '#ff4444',
+                      fontSize: '32px',
+                      fontWeight: 'bold',
+                      fontFamily: 'var(--font-bebas-neue)',
+                      letterSpacing: '2px',
+                      textShadow: '2px 2px 4px rgba(0,0,0,0.5)'
+                    }}>
+                      Registration Closed
+                    </div>
+                  ) : (
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      gap: '1px',
+                      flexWrap: 'nowrap',
+                      alignItems: 'center',
+                      overflowX: 'auto',
+                      padding: '0 10px'
+                    }}>
+                      <div style={{
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)',
+                        padding: '5px 12px',
+                        borderRadius: '12px',
+                        minWidth: '70px',
+                        flex: '1 1 0',
+                        border: '2px solid rgba(255,255,255,0.4)',
+                        // boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+                        transition: 'transform 0.3s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '38px',
+                          fontWeight: '800',
+                          color: 'var(--accent-color)',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          lineHeight: '1',
+                          textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
+                          letterSpacing: '1px'
+                        }}>{String(timeLeft.days).padStart(2, '0')}</div>
+                        <div style={{ 
+                          fontSize: '13px', 
+                          color: '#e84d01', 
+                          marginTop: '8px',
+                          fontWeight: 'bold',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          letterSpacing: '0.5px',
+                          textTransform: 'uppercase'
+                        }}>Days</div>
+                      </div>
+                      <div style={{
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)',
+                        padding: '5px 12px',
+                        borderRadius: '12px',
+                        minWidth: '70px',
+                        flex: '1 1 0',
+                        border: '2px solid rgba(255,255,255,0.4)',
+                        // boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+                        transition: 'transform 0.3s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '38px',
+                          fontWeight: '800',
+                          color: 'var(--accent-color)',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          lineHeight: '1',
+                          textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                          letterSpacing: '1px'
+                        }}>{String(timeLeft.hours).padStart(2, '0')}</div>
+                        <div style={{ 
+                          fontSize: '13px', 
+                          color: '#e84d01', 
+                          marginTop: '8px',
+                          fontWeight: 'bold',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          letterSpacing: '0.5px',
+                          textTransform: 'uppercase'
+                        }}>Hours</div>
+                      </div>
+                      <div style={{
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)',
+                        padding: '5px 12px',
+                        borderRadius: '12px',
+                        minWidth: '70px',
+                        flex: '1 1 0',
+                        border: '2px solid rgba(255,255,255,0.4)',
+                        // boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+                        transition: 'transform 0.3s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '38px',
+                          fontWeight: '800',
+                          color: 'var(--accent-color)',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          lineHeight: '1',
+                          textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                          letterSpacing: '1px'
+                        }}>{String(timeLeft.minutes).padStart(2, '0')}</div>
+                        <div style={{ 
+                          fontSize: '13px', 
+                          color: '#e84d01', 
+                          marginTop: '8px',
+                          fontWeight: 'bold',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          letterSpacing: '0.5px',
+                          textTransform: 'uppercase'
+                        }}>Minutes</div>
+                      </div>
+                      <div style={{
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.15) 100%)',
+                        padding: '5px 12px',
+                        borderRadius: '12px',
+                        minWidth: '70px',
+                        flex: '1 1 0',
+                        border: '2px solid rgba(255,255,255,0.4)',
+                        // boxShadow: '0 4px 15px rgba(0,0,0,0.3)',
+                        transition: 'transform 0.3s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '38px',
+                          fontWeight: '800',
+                          color: 'var(--accent-color)',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          lineHeight: '1',
+                          textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                          letterSpacing: '1px'
+                        }}>{String(timeLeft.seconds).padStart(2, '0')}</div>
+                        <div style={{ 
+                          fontSize: '13px', 
+                          color: '#e84d01', 
+                          marginTop: '8px',
+                          fontWeight: 'bold',
+                          fontFamily: 'var(--font-bebas-neue)',
+                          letterSpacing: '0.5px',
+                          textTransform: 'uppercase'
+                        }}>Seconds</div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -133,7 +455,18 @@ export default function PlayerRegistrationPage() {
                           className="form-control"
                           placeholder="Player's Name *"
                           required
+                          disabled={isNameVerified}
+                          style={{
+                            opacity: isNameVerified ? 0.7 : 1,
+                            cursor: isNameVerified ? 'not-allowed' : 'text',
+                            backgroundColor: isNameVerified ? 'rgba(255,255,255,0.1)' : 'transparent'
+                          }}
                         />
+                        {isNameVerified && (
+                          <small style={{ color: '#2fc73b', fontSize: '12px', marginTop: '5px', display: 'block' }}>
+                            ✓ Name verified from bank account
+                          </small>
+                        )}
                       </div>
 
                       <div className="form-group col-md-6 mb-4">
@@ -203,16 +536,59 @@ export default function PlayerRegistrationPage() {
                       </div>
 
                       <div className="form-group col-md-6 mb-4">
-                        <input
-                          type="text"
-                          name="nin"
-                          value={formData.nin}
-                          onChange={handleChange}
+                        <select
+                          name="bank"
+                          value={selectedBank}
+                          onChange={(e) => {
+                            setSelectedBank(e.target.value)
+                            setAccountNumber('')
+                            setValidationError('')
+                            setIsNameVerified(false)
+                            setFormData(prev => ({ ...prev, playerName: '' }))
+                          }}
                           className="form-control"
-                          placeholder="NIN (National Identification Number) *"
                           required
-                        />
+                          style={{ color: selectedBank ? 'var(--white-color)' : 'rgba(255,255,255,0.5)' }}
+                        >
+                          <option value="" style={{ color: '#000' }}>Select Bank *</option>
+                          {banks.map((bank) => (
+                            <option key={bank.uuid} value={bank.uuid} style={{ color: '#000' }}>
+                              {bank.name}
+                            </option>
+                          ))}
+                        </select>
                       </div>
+
+                      {selectedBank && (
+                        <div className="form-group col-md-6 mb-4">
+                          <input
+                            type="text"
+                            name="accountNumber"
+                            value={accountNumber}
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/\D/g, '') // Only allow digits
+                              setAccountNumber(value)
+                            }}
+                            className="form-control"
+                            placeholder="Account Number *"
+                            required
+                            maxLength={20}
+                            style={{
+                              borderColor: validationError ? 'red' : undefined
+                            }}
+                          />
+                          {isVerifying && (
+                            <small style={{ color: 'var(--accent-color)', fontSize: '12px', marginTop: '5px', display: 'block' }}>
+                              Verifying account...
+                            </small>
+                          )}
+                          {validationError && !isVerifying && (
+                            <small style={{ color: 'red', fontSize: '12px', marginTop: '5px', display: 'block' }}>
+                              {validationError}
+                            </small>
+                          )}
+                        </div>
+                      )}
 
                       <div className="form-group col-md-6 mb-4">
                         <input
@@ -385,10 +761,34 @@ export default function PlayerRegistrationPage() {
 
                       <div className="col-lg-12">
                         <div className="contact-form-btn">
-                          <button type="submit" className="btn-default btn-highlighted">
-                            <span>Submit Registration</span>
+                          <button 
+                            type="submit" 
+                            className="btn-default btn-highlighted"
+                            disabled={isRegistrationClosed || isSubmitting}
+                            style={{
+                              opacity: isRegistrationClosed ? 0.5 : 1,
+                              cursor: isRegistrationClosed ? 'not-allowed' : 'pointer'
+                            }}
+                          >
+                            <span>
+                              {isRegistrationClosed
+                                ? 'Registration Closed'
+                                : isSubmitting
+                                  ? 'Submitting...'
+                                  : 'Submit Registration'}
+                            </span>
                           </button>
                         </div>
+                        {isRegistrationClosed && (
+                          <p style={{
+                            textAlign: 'center',
+                            color: '#ff4444',
+                            marginTop: '15px',
+                            fontSize: '14px'
+                          }}>
+                            Registration deadline has passed. Please contact the organizing committee for assistance.
+                          </p>
+                        )}
                       </div>
                     </div>
                   </form>

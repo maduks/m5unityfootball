@@ -35,9 +35,9 @@ export default function AboutUs() {
               {/* Section Title End */}
 
               {/* About Us Body Start */}
-              <div className="about-us-body">
+              <div className="about-us-body" style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
                 {/* About Us List Start */}
-                <div className="about-us-list wow fadeInUp" data-wow-delay="0.6s">
+                <div className="about-us-list wow fadeInUp" data-wow-delay="0.6s" style={{ width: '100%' }}>
                   <h4 style={{ marginBottom: '15px', fontSize: '20px', fontFamily: 'var(--font-bebas-neue)' }}>
                     Our Vision
                   </h4>
@@ -52,7 +52,7 @@ export default function AboutUs() {
                 {/* About Us List End */}
 
                 {/* Competition Details Start */}
-                <div className="about-us-details wow fadeInUp" data-wow-delay="0.8s" style={{ marginTop: '30px' }}>
+                <div className="about-us-details wow fadeInUp" data-wow-delay="0.8s" style={{ width: '100%' }}>
                   <div className="row">
                     <div className="col-md-6">
                       <div style={{ marginBottom: '20px' }}>
@@ -82,7 +82,7 @@ export default function AboutUs() {
                 {/* Competition Details End */}
 
                 {/* Contact Us Circle Start */}
-                <div className="contact-us-circle">
+                <div className="contact-us-circle" style={{ alignSelf: 'flex-start', marginTop: '10px' }}>
                   <Link href="/register/player">
                     <figure>
                       <img src="/images/contact-us-circle.svg" alt="Contact" />

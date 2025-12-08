@@ -32,11 +32,10 @@ export default function AboutPage() {
       <OurFeatures />
       <CompetitionOperations />
       <WhyChooseUs />
-      <OurSchedule />
-      <OurExperience />
-      <ClubSuccess />
-      <OurTeam />
-      <CTABox />
+      {/* <OurSchedule /> */}
+      {/* <OurExperience /> */}
+      {/* <ClubSuccess /> */}
+      {/* <OurTeam /> */}
       <OurFaqs />
     </>
   )

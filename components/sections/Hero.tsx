@@ -11,10 +11,11 @@ export default function Hero() {
         <div className="row align-items-center">
           <div className="col-lg-6">
             <div className="hero-content">
+            
               <div className="section-title">
                 <h3 className="wow fadeInUp">Mgbowo Unity Football Cup</h3>
                 <h1 style={{textTransform:'uppercase'}} className="text-anime-style-2" data-cursor="-opaque">
-                  UNITING <span style={{color:'white'}}>MGBOWOLESE</span> THROUGH <span>FOOTBALL</span>
+                  UNITING <span  style={{color: 'var(--white-color)'}}>MGBOWOLESE</span> THROUGH <span>FOOTBALL</span>
                 </h1>
               </div>
               <div className="hero-content-list wow fadeInUp" data-wow-delay="0.2s">
