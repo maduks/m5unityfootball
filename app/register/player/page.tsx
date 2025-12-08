@@ -447,29 +447,6 @@ export default function PlayerRegistrationPage() {
                       </div>
 
                       <div className="form-group col-md-6 mb-4">
-                        <input
-                          type="text"
-                          name="playerName"
-                          value={formData.playerName}
-                          onChange={handleChange}
-                          className="form-control"
-                          placeholder="Player's Name *"
-                          required
-                          disabled={isNameVerified}
-                          style={{
-                            opacity: isNameVerified ? 0.7 : 1,
-                            cursor: isNameVerified ? 'not-allowed' : 'text',
-                            backgroundColor: isNameVerified ? 'rgba(255,255,255,0.1)' : 'transparent'
-                          }}
-                        />
-                        {isNameVerified && (
-                          <small style={{ color: '#2fc73b', fontSize: '12px', marginTop: '5px', display: 'block' }}>
-                            ✓ Name verified from bank account
-                          </small>
-                        )}
-                      </div>
-
-                      <div className="form-group col-md-6 mb-4">
                         <select
                           name="village"
                           value={formData.village}
@@ -486,6 +463,20 @@ export default function PlayerRegistrationPage() {
                           ))}
                         </select>
                       </div>
+
+                    
+                      <div className="form-group col-md-6 mb-4">
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          className="form-control"
+                          placeholder="Email Address (Optional)"
+                        />
+                      </div>
+
+                      
                       <span style={{ paddingBottom:'2px', color: 'wheat', fontSize: '12px', marginTop: '5px', display: 'block' }}>
                       Your Date Of Birth </span>
                       <div className="form-group col-md-6 mb-4">
@@ -592,6 +583,29 @@ export default function PlayerRegistrationPage() {
                           )}
                         </div>
                       )}
+
+<div className="form-group col-md-6 mb-4">
+                        <input
+                          type="text"
+                          name="playerName"
+                          value={formData.playerName}
+                          onChange={handleChange}
+                          className="form-control"
+                          placeholder="Player's Name *"
+                          required
+                          disabled={isNameVerified}
+                          style={{
+                            opacity: isNameVerified ? 0.7 : 1,
+                            cursor: isNameVerified ? 'not-allowed' : 'text',
+                            backgroundColor: isNameVerified ? 'rgba(255,255,255,0.1)' : 'transparent'
+                          }}
+                        />
+                        {isNameVerified && (
+                          <small style={{ color: '#2fc73b', fontSize: '12px', marginTop: '5px', display: 'block' }}>
+                            ✓ Name verified from bank account
+                          </small>
+                        )}
+                      </div>
 
                       <div className="form-group col-md-6 mb-4">
                         <input
