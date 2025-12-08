@@ -486,8 +486,11 @@ export default function PlayerRegistrationPage() {
                           ))}
                         </select>
                       </div>
-
+                      <span style={{ paddingBottom:'2px', color: 'wheat', fontSize: '12px', marginTop: '5px', display: 'block' }}>
+                      Your Date Of Birth </span>
                       <div className="form-group col-md-6 mb-4">
+                      
+
                         <input
                           type="date"
                           name="dateOfBirth"
