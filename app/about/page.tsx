@@ -25,7 +25,7 @@ export default function AboutPage() {
   return (
     <>
       <PageHeader title="About" subtitle="us" />
-      <ScrollingTicker />
+      {/* <ScrollingTicker /> */}
       <AboutUs />
       <OurApproach />
       <OurTalent />

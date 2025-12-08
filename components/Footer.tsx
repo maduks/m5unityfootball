@@ -7,7 +7,7 @@ import ScrollingTicker from './ScrollingTicker'
 export default function Footer() {
   return (
     <footer className="main-footer">
-      <ScrollingTicker />
+      {/* <ScrollingTicker /> */}
       <div className="footer-box dark-section">
         <div className="container">
           <div className="row">

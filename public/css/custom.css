@@ -572,7 +572,7 @@ header.main-header .header-sticky.active {
 
 .main-menu ul li.nav-item a {
     font-family: var(--accent-font);
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 400;
     line-height: normal;
     padding: 14px !important;

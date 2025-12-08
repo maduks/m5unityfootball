@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Bebas_Neue, Manrope } from 'next/font/google'
+import { Bebas_Neue } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -9,15 +9,9 @@ import ScriptLoader from '@/components/ScriptLoader'
 import Script from 'next/script'
 
 const bebasNeue = Bebas_Neue({
-  weight: '400',
+  weight: ['400'],
   subsets: ['latin'],
   variable: '--font-bebas-neue',
-})
-
-const manrope = Manrope({
-  weight: ['200', '300', '400', '500', '600', '700', '800'],
-  subsets: ['latin'],
-  variable: '--font-manrope',
 })
 
 export const metadata: Metadata = {
@@ -31,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${bebasNeue.variable} ${manrope.variable}`}>
+    <html lang="en">
       <head>
         <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png" />
         {/* Preload local webfonts for faster loading */}
@@ -50,7 +44,8 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body>
+      {/* Expose the Bebas Neue variable without forcing it on all text */}
+      <body className={bebasNeue.variable}>
         <ScriptLoader />
         <Preloader />
         <Header />

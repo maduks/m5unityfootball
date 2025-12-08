@@ -7,24 +7,24 @@ const schedules = [
   {
     dateIcon: '/images/icon-schedule-1.svg',
     timeIcon: '/images/icon-schedule-2.svg',
-    team1: 'Melbourne knight',
-    team2: 'Avondale FC',
-    location: 'Allianz Arena Stadium',
+    team1: 'Team A',
+    team2: 'Team B',
+    location: 'Boys Secondary School Mgowo Football Field',
   },
   {
     dateIcon: '/images/icon-schedule-3.svg',
     timeIcon: '/images/icon-schedule-4.svg',
-    team1: 'Pontevedra FC',
-    team2: 'Bergantiños FC',
-    location: 'Stadio Giuseppe Meazza',
+    team1: 'Team C',
+    team2: 'Team D',
+    location: 'Girls Secondary School Mgowo Football Field',
   },
-  {
-    dateIcon: '/images/icon-schedule-5.svg',
-    timeIcon: '/images/icon-schedule-6.svg',
-    team1: 'Ribadumia FC',
-    team2: 'Santa Comba FC',
-    location: 'Olympiastadion STADIUM',
-  },
+  // {
+  //   dateIcon: '/images/icon-schedule-5.svg',
+  //   timeIcon: '/images/icon-schedule-6.svg',
+  //   team1: 'Team E',
+  //   team2: 'Team F',
+  //   location: 'Olympiastadion STADIUM',
+  // },
 ]
 
 export default function OurSchedule() {

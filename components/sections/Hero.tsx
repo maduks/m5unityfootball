@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 export default function Hero() {
+
   return (
     <div className="hero dark-section">
       <div className="container">
@@ -13,7 +14,7 @@ export default function Hero() {
               <div className="section-title">
                 <h3 className="wow fadeInUp">Mgbowo Unity Football Cup</h3>
                 <h1 style={{textTransform:'uppercase'}} className="text-anime-style-2" data-cursor="-opaque">
-                  UNITING <span style={{color:'#fff'}}>MGBOWOLESE</span> THROUGH <span>FOOTBALL</span>
+                  UNITING <span style={{color:'white'}}>MGBOWOLESE</span> THROUGH <span>FOOTBALL</span>
                 </h1>
               </div>
               <div className="hero-content-list wow fadeInUp" data-wow-delay="0.2s">

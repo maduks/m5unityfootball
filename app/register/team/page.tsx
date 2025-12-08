@@ -1,17 +1,16 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 
-const villages = ['Amata', 'Alachara', 'Ezioha', 'Inyi', 'Imama', 'Ohaire United FC']
-
+const villages = ['Ameta', 'Alechara', 'Ezioha', 'Inyi', 'Imeama']
 export default function TeamRegistrationPage() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     teamName: '',
     village: '',
-    villageChairmanName: '',
-    villageChairmanPhone: '',
-    villageChairmanSignature: '',
+   
     coachName: '',
     coachPhone: '',
     coachSignature: '',
@@ -20,6 +19,10 @@ export default function TeamRegistrationPage() {
     teamManagerSignature: '',
     agreeToTerms: false,
   })
+
+
+
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target
@@ -30,10 +33,32 @@ export default function TeamRegistrationPage() {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Team registration submitted:', formData)
-    alert('Team registration submitted! Registration fee: ₦10,000 (non-refundable). This will be deducted from prize money if not paid before kick-off date.')
+    if (isSubmitting) return
+    setIsSubmitting(true)
+
+    try {
+      const res = await fetch('https://api.skyshorelubs.com/teams/registration', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      if (!res.ok) {
+        const errorText = await res.text()
+        throw new Error(errorText || 'Registration failed')
+      }
+
+      const data = await res.json()
+      alert(data?.message || 'Team registered successfully')
+      router.push('/success')
+    } catch (error) {
+      console.error('Team registration failed:', error)
+      alert('Team registration failed. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const isOhaireUnited = formData.teamName === 'Ohaire United FC' || formData.village === 'Ohaire United FC'
@@ -99,21 +124,15 @@ export default function TeamRegistrationPage() {
                       </div>
 
                       <div className="form-group col-md-6 mb-4">
-                        <select
+                        <input
+                          type="text"
                           name="teamName"
                           value={formData.teamName}
                           onChange={handleChange}
                           className="form-control"
+                          placeholder="Enter Team Name *"
                           required
-                          style={{ color: formData.teamName ? 'var(--white-color)' : 'rgba(255,255,255,0.5)' }}
-                        >
-                          <option value="" style={{ color: '#000' }}>Select Team *</option>
-                          {villages.map((village) => (
-                            <option key={village} value={village} style={{ color: '#000' }}>
-                              {village}
-                            </option>
-                          ))}
-                        </select>
+                        />
                       </div>
 
                       <div className="form-group col-md-6 mb-4">
@@ -149,7 +168,7 @@ export default function TeamRegistrationPage() {
                             </h4>
                           </div>
 
-                          <div className="form-group col-md-6 mb-4">
+                          {/* <div className="form-group col-md-6 mb-4">
                             <input
                               type="text"
                               name="villageChairmanName"
@@ -171,9 +190,9 @@ export default function TeamRegistrationPage() {
                               placeholder="Village Chairman Phone Number *"
                               required
                             />
-                          </div>
+                          </div> */}
 
-                          <div className="form-group col-md-12 mb-4">
+                          {/* <div className="form-group col-md-12 mb-4">
                             <input
                               type="text"
                               name="villageChairmanSignature"
@@ -183,7 +202,7 @@ export default function TeamRegistrationPage() {
                               placeholder="Village Chairman Signature (Type full name) *"
                               required
                             />
-                          </div>
+                          </div> */}
                         </>
                       ) : (
                         <>

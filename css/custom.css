@@ -45,6 +45,7 @@
 /*** 	 01. Global Variables	  ***/
 
 /************************************/
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap");
 
 :root {
     --primary-color: #031521;
@@ -441,8 +442,10 @@ body {
 }
 
 .section-title h1 {
-    font-size: 74px;
+    font-weight: bolder;
+    font-size: 54px;
     margin-bottom: 0;
+    color: white;
     cursor: none;
 }
 
@@ -570,8 +573,8 @@ header.main-header .header-sticky.active {
 
 .main-menu ul li.nav-item a {
     font-family: var(--accent-font);
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 15px;
+    font-weight: 800;
     line-height: normal;
     padding: 14px !important;
     color: var(--white-color);

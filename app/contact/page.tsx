@@ -14,7 +14,7 @@ export default function ContactPage() {
   return (
     <>
       <PageHeader title="Contact" subtitle="us" />
-      <ScrollingTicker />
+      {/* <ScrollingTicker /> */}
       <PageContactUs />
     </>
   )

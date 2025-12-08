@@ -7,7 +7,6 @@
 @import url('../css/mousecursor.css');
 @import url('../css/custom.css');
 /* Font Awesome - Override font paths to use local webfonts */
-@import './fontawesome-local.css';
 /* Page header color fix - must be last */
 @import './page-header-fix.css';
 

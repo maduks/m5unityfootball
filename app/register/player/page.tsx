@@ -1,12 +1,14 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 
-const villages = ['Amata', 'Alachara', 'Ezioha', 'Inyi', 'Imama', 'Ohaire United FC']
+const villages = ['Ameta', 'Alechara', 'Ezioha', 'Inyi', 'Imeama']
 const positions = ['Goalkeeper', 'Defender', 'Midfielder', 'Forward', 'Winger']
 
 export default function PlayerRegistrationPage() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     playerName: '',
     village: '',
@@ -23,6 +25,7 @@ export default function PlayerRegistrationPage() {
     teamCoach: '',
     agreeToTerms: false,
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value, type } = e.target
@@ -33,10 +36,32 @@ export default function PlayerRegistrationPage() {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Form submitted:', formData)
-    alert('Registration form submitted! Please note: This form must be submitted at least two weeks before the competition commences.')
+    if (isSubmitting) return
+    setIsSubmitting(true)
+
+    try {
+      const res = await fetch('https://api.skyshorelubs.com/players/registrations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+
+      if (!res.ok) {
+        const errorText = await res.text()
+        throw new Error(errorText || 'Registration failed')
+      }
+
+      const data = await res.json()
+      alert(data?.message || 'Player registered successfully')
+      router.push('/success')
+    } catch (error) {
+      console.error('Player registration failed:', error)
+      alert('Registration failed. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -235,18 +260,28 @@ export default function PlayerRegistrationPage() {
                           placeholder="Father's Name *"
                           required
                         />
+
+
+
+                        
                       </div>
 
                       <div className="form-group col-md-6 mb-4">
-                        <input
-                          type="text"
+                        <select
                           name="fatherVillage"
                           value={formData.fatherVillage}
                           onChange={handleChange}
                           className="form-control"
-                          placeholder="Father's Village/Clan *"
                           required
-                        />
+                          style={{ color: formData.fatherVillage ? 'var(--white-color)' : 'rgba(255,255,255,0.5)' }}
+                        >
+                          <option value="" style={{ color: '#000' }}>Select Father&apos;s Village/Clan *</option>
+                          {villages.map((village) => (
+                            <option key={village} value={village} style={{ color: '#000' }}>
+                              {village}
+                            </option>
+                          ))}
+                        </select>
                       </div>
 
                       <div className="form-group col-md-6 mb-4">
@@ -262,15 +297,21 @@ export default function PlayerRegistrationPage() {
                       </div>
 
                       <div className="form-group col-md-6 mb-4">
-                        <input
-                          type="text"
+                        <select
                           name="motherVillage"
                           value={formData.motherVillage}
                           onChange={handleChange}
                           className="form-control"
-                          placeholder="Mother's Village/Clan *"
                           required
-                        />
+                          style={{ color: formData.motherVillage ? 'var(--white-color)' : 'rgba(255,255,255,0.5)' }}
+                        >
+                          <option value="" style={{ color: '#000' }}>Select Mother&apos;s Village/Clan *</option>
+                          {villages.map((village) => (
+                            <option key={village} value={village} style={{ color: '#000' }}>
+                              {village}
+                            </option>
+                          ))}
+                        </select>
                       </div>
 
                       <div className="form-group col-md-12 mb-4">
