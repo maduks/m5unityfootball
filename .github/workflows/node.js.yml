@@ -2,7 +2,7 @@ name: Deploy M5UNITY CUP to FTP Server (M5 UNITY CUP COMPETITION)
 on:
   push:
     branches:
-      - main # Trigger deployment on push to the main branch
+      - main # Trigger deployment on push to the main branch.
 jobs:
   deploy:
     name: Deploy to FTP
