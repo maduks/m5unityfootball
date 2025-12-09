@@ -210,6 +210,7 @@ export default function PlayerRegistrationPage() {
     }
 
     setIsSubmitting(true)
+    console.log(formData)
 
     try {
       const res = await fetch('https://api.skyshorelubs.com/players/registrations', {
@@ -520,7 +521,7 @@ export default function PlayerRegistrationPage() {
                         >
                           <option value="" style={{ color: '#000' }}>Select Team *</option>
                           {teams.map((team) => (
-                            <option key={team._id} value={team.teamName} style={{ color: '#000' }}>
+                            <option key={team._id} value={team._id} style={{ color: '#000' }}>
                               {team.teamName}
                             </option>
                           ))}
@@ -609,7 +610,7 @@ export default function PlayerRegistrationPage() {
                           className="form-control"
                           placeholder="Player's Name *"
                           required
-                          disabled={isNameVerified}
+                          disabled={isNameVerified || !isNameVerified}
                           style={{
                             opacity: isNameVerified ? 0.7 : 1,
                             cursor: isNameVerified ? 'not-allowed' : 'text',
@@ -634,7 +635,7 @@ export default function PlayerRegistrationPage() {
                           required
                         />
                       </div>
-
+{/* 
                       <div className="form-group col-md-6 mb-4">
                         <input
                           type="email"
@@ -644,7 +645,7 @@ export default function PlayerRegistrationPage() {
                           className="form-control"
                           placeholder="Email Address (Optional)"
                         />
-                      </div>
+                      </div> */}
 
                       <div className="col-lg-12" style={{ marginTop: '20px' }}>
                         <h4 style={{
