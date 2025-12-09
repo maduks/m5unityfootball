@@ -1,12 +1,8 @@
 import type { Metadata } from 'next'
 import { Bebas_Neue } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import Preloader from '@/components/Preloader'
-import ClientScripts from '@/components/ClientScripts'
 import ScriptLoader from '@/components/ScriptLoader'
-import Script from 'next/script'
+import ConditionalLayout from '@/components/ConditionalLayout'
 
 const bebasNeue = Bebas_Neue({
   weight: ['400'],
@@ -47,11 +43,7 @@ export default function RootLayout({
       {/* Expose the Bebas Neue variable without forcing it on all text */}
       <body className={bebasNeue.variable}>
         <ScriptLoader />
-        <Preloader />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <ClientScripts />
+        <ConditionalLayout>{children}</ConditionalLayout>
       </body>
     </html>
   )

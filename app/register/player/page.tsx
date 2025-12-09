@@ -40,7 +40,7 @@ export default function PlayerRegistrationPage() {
   const [isVerifying, setIsVerifying] = useState(false)
   const [validationError, setValidationError] = useState<string>('')
   const [isNameVerified, setIsNameVerified] = useState(false)
-  
+
   // Countdown timer state
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -49,7 +49,7 @@ export default function PlayerRegistrationPage() {
     seconds: 0,
   })
   const [isRegistrationClosed, setIsRegistrationClosed] = useState(false)
-  
+
   // Set registration deadline (change this to your actual deadline)
   const registrationDeadline = new Date('2025-12-23T23:59:59').getTime()
 
@@ -86,7 +86,9 @@ export default function PlayerRegistrationPage() {
     return () => clearInterval(timer)
   }, [registrationDeadline])
 
-  // Fetch banks on component mount
+  const [teams, setTeams] = useState<{ _id: string; teamName: string }[]>([])
+
+  // Fetch banks and teams on component mount
   useEffect(() => {
     const fetchBanks = async () => {
       try {
@@ -103,7 +105,21 @@ export default function PlayerRegistrationPage() {
         setValidationError('Failed to load banks. Please refresh the page.')
       }
     }
+
+    const fetchTeams = async () => {
+      try {
+        const response = await fetch('https://api.skyshorelubs.com/teams/getTeams')
+        const data = await response.json()
+        if (data?.teams) {
+          setTeams(data.teams)
+        }
+      } catch (error) {
+        console.error('Failed to fetch teams:', error)
+      }
+    }
+
     fetchBanks()
+    fetchTeams()
   }, [])
 
   // Validate account when account number is entered
@@ -131,7 +147,7 @@ export default function PlayerRegistrationPage() {
           })
 
           const data = await response.json()
-          
+
           if (data?.data?.responseCode === 0 && data?.data?.destinationAccountHolderNameAtBank) {
             setFormData(prev => ({ ...prev, playerName: data.data.destinationAccountHolderNameAtBank }))
             setIsNameVerified(true)
@@ -180,19 +196,19 @@ export default function PlayerRegistrationPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (isSubmitting) return
-    
+
     // Check if registration is closed
     if (isRegistrationClosed) {
       alert('Registration has closed. The deadline has passed.')
       return
     }
-    
+
     // Check if name is verified
     if (!isNameVerified || !formData.playerName) {
       alert('Please verify your bank account to populate your name before submitting.')
       return
     }
-    
+
     setIsSubmitting(true)
 
     try {
@@ -236,10 +252,10 @@ export default function PlayerRegistrationPage() {
                   Join M5 Unity Football Cup Competition <span>2025 Edition</span>
                 </h2>
                 <p className="wow fadeInUp" data-wow-delay="0.4s">
-                  Fill and submit this form to participate in the competition. You must provide your bank account details 
+                  Fill and submit this form to participate in the competition. You must provide your bank account details
                   for verification of your identity.
                 </p>
-                
+
                 {/* Countdown Timer */}
                 <div className="wow fadeInUp" data-wow-delay="0.6s" style={{
                   marginTop: '40px',
@@ -305,9 +321,9 @@ export default function PlayerRegistrationPage() {
                           textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
                           letterSpacing: '1px'
                         }}>{String(timeLeft.days).padStart(2, '0')}</div>
-                        <div style={{ 
-                          fontSize: '13px', 
-                          color: '#e84d01', 
+                        <div style={{
+                          fontSize: '13px',
+                          color: '#e84d01',
                           marginTop: '8px',
                           fontWeight: 'bold',
                           fontFamily: 'var(--font-bebas-neue)',
@@ -335,9 +351,9 @@ export default function PlayerRegistrationPage() {
                           textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
                           letterSpacing: '1px'
                         }}>{String(timeLeft.hours).padStart(2, '0')}</div>
-                        <div style={{ 
-                          fontSize: '13px', 
-                          color: '#e84d01', 
+                        <div style={{
+                          fontSize: '13px',
+                          color: '#e84d01',
                           marginTop: '8px',
                           fontWeight: 'bold',
                           fontFamily: 'var(--font-bebas-neue)',
@@ -365,9 +381,9 @@ export default function PlayerRegistrationPage() {
                           textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
                           letterSpacing: '1px'
                         }}>{String(timeLeft.minutes).padStart(2, '0')}</div>
-                        <div style={{ 
-                          fontSize: '13px', 
-                          color: '#e84d01', 
+                        <div style={{
+                          fontSize: '13px',
+                          color: '#e84d01',
                           marginTop: '8px',
                           fontWeight: 'bold',
                           fontFamily: 'var(--font-bebas-neue)',
@@ -395,9 +411,9 @@ export default function PlayerRegistrationPage() {
                           textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
                           letterSpacing: '1px'
                         }}>{String(timeLeft.seconds).padStart(2, '0')}</div>
-                        <div style={{ 
-                          fontSize: '13px', 
-                          color: '#e84d01', 
+                        <div style={{
+                          fontSize: '13px',
+                          color: '#e84d01',
                           marginTop: '8px',
                           fontWeight: 'bold',
                           fontFamily: 'var(--font-bebas-neue)',
@@ -414,15 +430,15 @@ export default function PlayerRegistrationPage() {
 
           <div className="row">
             <div className="col-lg-12">
-              <div style={{ 
-                display: 'block', 
-                width: '100%', 
+              <div style={{
+                display: 'block',
+                width: '100%',
                 marginTop: '50px',
                 borderRadius: '20px',
                 overflow: 'hidden'
               }}>
-                <div className="contact-form dark-section" style={{ 
-                  width: '100%', 
+                <div className="contact-form dark-section" style={{
+                  width: '100%',
                   margin: '0',
                   maxWidth: '100%'
                 }}>
@@ -434,9 +450,9 @@ export default function PlayerRegistrationPage() {
                   <form onSubmit={handleSubmit} className="wow fadeInUp" data-wow-delay="0.2s">
                     <div className="row">
                       <div className="col-lg-12">
-                        <h4 style={{ 
-                          color: 'var(--white-color)', 
-                          marginBottom: '25px', 
+                        <h4 style={{
+                          color: 'var(--white-color)',
+                          marginBottom: '25px',
                           paddingBottom: '15px',
                           borderBottom: '2px solid rgba(255,255,255,0.1)',
                           fontSize: '22px',
@@ -464,7 +480,7 @@ export default function PlayerRegistrationPage() {
                         </select>
                       </div>
 
-                    
+
                       <div className="form-group col-md-6 mb-4">
                         <input
                           type="email"
@@ -476,11 +492,11 @@ export default function PlayerRegistrationPage() {
                         />
                       </div>
 
-                      
-                      <span style={{ paddingBottom:'2px', color: 'wheat', fontSize: '12px', marginTop: '5px', display: 'block' }}>
-                      Your Date Of Birth </span>
+
+                      <span style={{ paddingBottom: '2px', color: 'wheat', fontSize: '12px', marginTop: '5px', display: 'block' }}>
+                        Your Date Of Birth </span>
                       <div className="form-group col-md-6 mb-4">
-                      
+
 
                         <input
                           type="date"
@@ -503,9 +519,9 @@ export default function PlayerRegistrationPage() {
                           style={{ color: formData.team ? 'var(--white-color)' : 'rgba(255,255,255,0.5)' }}
                         >
                           <option value="" style={{ color: '#000' }}>Select Team *</option>
-                          {villages.map((village) => (
-                            <option key={village} value={village} style={{ color: '#000' }}>
-                              {village}
+                          {teams.map((team) => (
+                            <option key={team._id} value={team.teamName} style={{ color: '#000' }}>
+                              {team.teamName}
                             </option>
                           ))}
                         </select>
@@ -584,7 +600,7 @@ export default function PlayerRegistrationPage() {
                         </div>
                       )}
 
-<div className="form-group col-md-6 mb-4">
+                      <div className="form-group col-md-6 mb-4">
                         <input
                           type="text"
                           name="playerName"
@@ -631,9 +647,9 @@ export default function PlayerRegistrationPage() {
                       </div>
 
                       <div className="col-lg-12" style={{ marginTop: '20px' }}>
-                        <h4 style={{ 
-                          color: 'var(--white-color)', 
-                          marginBottom: '25px', 
+                        <h4 style={{
+                          color: 'var(--white-color)',
+                          marginBottom: '25px',
                           paddingBottom: '15px',
                           borderBottom: '2px solid rgba(255,255,255,0.1)',
                           fontSize: '22px',
@@ -656,7 +672,7 @@ export default function PlayerRegistrationPage() {
 
 
 
-                        
+
                       </div>
 
                       <div className="form-group col-md-6 mb-4">
@@ -728,16 +744,16 @@ export default function PlayerRegistrationPage() {
                           border: '1px solid rgba(255,255,255,0.2)',
                           backdropFilter: 'blur(10px)'
                         }}>
-                          <h5 style={{ 
-                            marginBottom: '15px', 
+                          <h5 style={{
+                            marginBottom: '15px',
                             color: 'var(--accent-color)',
                             fontSize: '18px',
                             fontFamily: 'var(--font-bebas-neue)'
                           }}>
                             Eligibility & Penalty Rules
                           </h5>
-                          <ul style={{ 
-                            marginLeft: '20px', 
+                          <ul style={{
+                            marginLeft: '20px',
                             lineHeight: '2',
                             color: 'rgba(255,255,255,0.9)',
                             fontSize: '14px'
@@ -752,8 +768,8 @@ export default function PlayerRegistrationPage() {
                       </div>
 
                       <div className="form-group col-md-12 mb-4">
-                        <label style={{ 
-                          display: 'flex', 
+                        <label style={{
+                          display: 'flex',
                           alignItems: 'center',
                           color: 'var(--white-color)',
                           cursor: 'pointer',
@@ -765,7 +781,7 @@ export default function PlayerRegistrationPage() {
                             checked={formData.agreeToTerms}
                             onChange={handleChange}
                             required
-                            style={{ 
+                            style={{
                               marginRight: '10px',
                               width: '18px',
                               height: '18px',
@@ -778,8 +794,8 @@ export default function PlayerRegistrationPage() {
 
                       <div className="col-lg-12">
                         <div className="contact-form-btn">
-                          <button 
-                            type="submit" 
+                          <button
+                            type="submit"
                             className="btn-default btn-highlighted"
                             disabled={isRegistrationClosed || isSubmitting}
                             style={{
