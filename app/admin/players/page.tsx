@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Player } from '@/lib/mockData';
 export default function PlayersPage() {
     const [players, setPlayers] = useState<Player[]>([]);
-    const [teams, setTeams] = useState<Team[]>([]);
+    const [teams, setTeams] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedTeamId, setSelectedTeamId] = useState<string>('all');
