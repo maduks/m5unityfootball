@@ -1,52 +1,51 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Player } from '@/lib/mockData';
+import { Player, Team } from '@/lib/mockData';
 export default function PlayersPage() {
     const [players, setPlayers] = useState<Player[]>([]);
-    const [teams, setTeams] = useState([]);
+    const [teams, setTeams] = useState<Team[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedTeamId, setSelectedTeamId] = useState<string>('all');
 
     useEffect(() => {
         const fetchPlayers = async () => {
-      try {
-        setLoading(true)
-        const response = await fetch('https://api.skyshorelubs.com/players/getPlayers')
-        const data = await response.json()
-        if (data?.players) {
-            setLoading(false)
-          setPlayers(data.players.slice(0, 2))
+            try {
+                setLoading(true)
+                const response = await fetch('https://api.skyshorelubs.com/players/getPlayers')
+                const data = await response.json()
+                if (data?.players) {
+                    setLoading(false)
+                    setPlayers(data.players.slice(0, 2))
 
+                }
+            } catch (error) {
+                console.error('Failed to fetch players:', error)
+            }
         }
-      } catch (error) {
-        console.error('Failed to fetch players:', error)
-      }
-    }
-    const fetchTeams = async () => {
-      try {
-        const response = await fetch('https://api.skyshorelubs.com/teams/getTeams')
-        const data = await response.json()
-        if (data?.teams) {
-          setTeams(data.teams)
-          setLoading(false)
+        const fetchTeams = async () => {
+            try {
+                const response = await fetch('https://api.skyshorelubs.com/teams/getTeams')
+                const data = await response.json()
+                if (data?.teams) {
+                    setTeams(data.teams)
+                    setLoading(false)
+                }
+            } catch (error) {
+                console.error('Failed to fetch teams:', error)
+            }
         }
-      } catch (error) {
-        console.error('Failed to fetch teams:', error)
-      }
-    }
         fetchPlayers();
         fetchTeams()
     }, []);
 
 
-     
-  const getTeam=(teamId:string)=>{
-    const team = teams.filter((team) => team._id === teamId)
-    return team[0]?.teamName
-  }
-    
+
+  const getTeam = (teamId: string) => {
+        const team = teams.filter((team:any) => team._id === teamId)
+        return team[0]?.teamName
+    }
 
     const filteredPlayers = players.filter((player) => {
         const matchesSearch = player.playerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -66,7 +65,7 @@ export default function PlayersPage() {
                         </p>
                     </div>
                     <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-                    
+
 
                         <div className="admin-search">
                             <i className="fas fa-search"></i>
@@ -92,9 +91,9 @@ export default function PlayersPage() {
                                 <th>Player Name</th>
                                 <th>Position</th>
                                 <th>Village</th>
-                                 <th>Phone Number</th>
-                                 <th>fatherVillage</th>
-                                 <th>motherVillage</th>
+                                <th>Phone Number</th>
+                                <th>fatherVillage</th>
+                                <th>motherVillage</th>
                                 <th>Team</th>
                             </tr>
                         </thead>
@@ -117,7 +116,7 @@ export default function PlayersPage() {
                                         <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
                                             {player.village}
                                         </td>
-                                         <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
+                                        <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
                                             {player.phoneNumber}
                                         </td>
                                         <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
@@ -126,8 +125,8 @@ export default function PlayersPage() {
                                         <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
                                             {player.motherVillage}
                                         </td>
-                                        
-                                         <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
+
+                                        <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
                                             {getTeam(player.team)}
                                         </td>
                                     </tr>

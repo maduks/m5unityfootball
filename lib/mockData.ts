@@ -14,6 +14,7 @@ export interface Player {
 
 export interface Team {
   id: string;
+  _id:string;
   teamName: string;
   logo: string;
   coachName: string;
@@ -25,6 +26,7 @@ export interface Team {
 const TEAMS: Team[] = [
   {
     id: 't1',
+    _id: 't1',
     teamName: 'Mgbowo United',
     logo: '/images/teams/mgbowo-united.png',
     coachName: 'John Doe',
@@ -34,6 +36,7 @@ const TEAMS: Team[] = [
   },
   {
     id: 't2',
+    _id: 't2',
     teamName: 'Unity FC',
     logo: '/images/teams/unity-fc.png',
     coachName: 'Jane Smith',
@@ -43,6 +46,7 @@ const TEAMS: Team[] = [
   },
   {
     id: 't3',
+    _id: 't3',
     teamName: 'Warriors FC',
     logo: '/images/teams/warriors-fc.png',
     coachName: 'Mike Johnson',
