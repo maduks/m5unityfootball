@@ -1,7 +1,12 @@
 
 export interface Player {
   id: string;
-  name: string;
+  playerName: string;
+  phoneNumber: string;
+  fatherVillage: string;
+  motherVillage: string;
+  village: string;
+  team:string;
   position: string;
   jerseyNumber: number;
   teamId: string;
@@ -9,47 +14,45 @@ export interface Player {
 
 export interface Team {
   id: string;
-  name: string;
+  teamName: string;
   logo: string;
-  coach: string;
+  coachName: string;
   foundedYear: number;
+  paid:boolean;
   village: string;
 }
 
 const TEAMS: Team[] = [
   {
     id: 't1',
-    name: 'Mgbowo United',
+    teamName: 'Mgbowo United',
     logo: '/images/teams/mgbowo-united.png',
-    coach: 'John Doe',
+    coachName: 'John Doe',
     foundedYear: 2018,
+    paid:true,
     village: 'Mgbowo',
   },
   {
     id: 't2',
-    name: 'Unity FC',
+    teamName: 'Unity FC',
     logo: '/images/teams/unity-fc.png',
-    coach: 'Jane Smith',
+    coachName: 'Jane Smith',
     foundedYear: 2019,
+    paid:true,
     village: 'Amata',
   },
   {
     id: 't3',
-    name: 'Warriors FC',
+    teamName: 'Warriors FC',
     logo: '/images/teams/warriors-fc.png',
-    coach: 'Mike Johnson',
+    coachName: 'Mike Johnson',
     foundedYear: 2020,
+    paid:true,
     village: 'Inyi',
   },
 ];
 
-const PLAYERS: Player[] = [
-  { id: 'p1', name: 'Chinedu Obi', position: 'Forward', jerseyNumber: 9, teamId: 't1' },
-  { id: 'p2', name: 'Emeka Eze', position: 'Midfielder', jerseyNumber: 10, teamId: 't1' },
-  { id: 'p3', name: 'Sola Ade', position: 'Defender', jerseyNumber: 5, teamId: 't2' },
-  { id: 'p4', name: 'Musa Ali', position: 'Goalkeeper', jerseyNumber: 1, teamId: 't2' },
-  { id: 'p5', name: 'David Okon', position: 'Forward', jerseyNumber: 11, teamId: 't3' },
-];
+
 
 export const getTeams = async (): Promise<Team[]> => {
   // Simulate API delay
@@ -72,12 +75,3 @@ export const updateTeam = async (updatedTeam: Team): Promise<Team> => {
   throw new Error('Team not found');
 };
 
-export const getPlayers = async (): Promise<Player[]> => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return [...PLAYERS];
-};
-
-export const getPlayersByTeam = async (teamId: string): Promise<Player[]> => {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  return PLAYERS.filter((p) => p.teamId === teamId);
-};

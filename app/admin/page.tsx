@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import StatsCard from '@/components/admin/StatsCard';
-import { getPlayers, getTeams, Team } from '@/lib/mockData';
+import {  getTeams, Team } from '@/lib/mockData';
 
 export default function AdminDashboard() {
     const [stats, setStats] = useState({
@@ -10,19 +10,32 @@ export default function AdminDashboard() {
         players: 0,
     });
     const [recentTeams, setRecentTeams] = useState<Team[]>([]);
+    const [loading,setLoading] =useState(false)
+
 
     useEffect(() => {
-        const fetchData = async () => {
-            const [teamsData, playersData] = await Promise.all([getTeams(), getPlayers()]);
-            setStats({
-                teams: teamsData.length,
-                players: playersData.length,
-            });
-            // Get the 3 most recent teams (in a real app, these would be sorted by creation date)
-            setRecentTeams(teamsData.slice(0, 3));
-        };
-        fetchData();
+
+    const fetchTeams = async () => {
+      try {
+        setLoading(true)
+        const response = await fetch('https://api.skyshorelubs.com/teams/getTeams')
+        const data = await response.json()
+        if (data?.teams) {
+            setLoading(false)
+          setRecentTeams(data.teams.slice(0, 2))
+          setStats({
+            teams: data.teams.length,
+            players: data.teams.reduce((total:number, team:any) => total + team.players.length, 0),
+          })
+        }
+      } catch (error) {
+        console.error('Failed to fetch teams:', error)
+      }
+    }
+   
+        fetchTeams();
     }, []);
+
 
     return (
         <div>
@@ -52,7 +65,14 @@ export default function AdminDashboard() {
                     <h2>Recent Teams</h2>
                 </div>
                 <div style={{ padding: '20px 30px' }}>
-                    {recentTeams.length > 0 ? (
+
+
+                    { loading ? (
+                         <div className="loading-spinner">
+                        <div className="spinner"></div>
+                        <p>Loading recent teams...</p>
+                    </div>
+                    ) : (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                             {recentTeams.map((team) => (
                                 <div
@@ -85,26 +105,24 @@ export default function AdminDashboard() {
                                         </div>
                                         <div>
                                             <h4 style={{ margin: 0, fontSize: '16px', fontWeight: '600', color: 'var(--primary-color)' }}>
-                                                {team.name}
+                                                {team.teamName}
                                             </h4>
                                             <p style={{ margin: '3px 0 0 0', fontSize: '14px', color: 'var(--text-color)' }}>
-                                                {team.village} • Coach: {team.coach}
+                                                {team.village} • Coach: {team.coachName}
                                             </p>
                                         </div>
                                     </div>
                                     <div style={{ textAlign: 'right' }}>
                                         <span style={{ fontSize: '13px', color: 'var(--text-color)', fontWeight: '500' }}>
-                                            Founded {team.foundedYear}
+                                            Payment: {team.paid ? 'Yes' : 'No'}
                                         </span>
                                     </div>
                                 </div>
                             ))}
                         </div>
-                    ) : (
-                        <p style={{ textAlign: 'center', color: 'var(--text-color)', padding: '20px 0' }}>
-                            No teams registered yet.
-                        </p>
-                    )}
+                    )
+                    }
+                    
                 </div>
             </div>
 

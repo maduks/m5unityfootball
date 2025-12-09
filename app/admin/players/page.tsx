@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Player, Team, getPlayers, getTeams } from '@/lib/mockData';
-
+import { Player } from '@/lib/mockData';
 export default function PlayersPage() {
     const [players, setPlayers] = useState<Player[]>([]);
     const [teams, setTeams] = useState<Team[]>([]);
@@ -11,22 +10,46 @@ export default function PlayersPage() {
     const [selectedTeamId, setSelectedTeamId] = useState<string>('all');
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            const [playersData, teamsData] = await Promise.all([getPlayers(), getTeams()]);
-            setPlayers(playersData);
-            setTeams(teamsData);
-            setLoading(false);
-        };
-        fetchData();
+        const fetchPlayers = async () => {
+      try {
+        setLoading(true)
+        const response = await fetch('https://api.skyshorelubs.com/players/getPlayers')
+        const data = await response.json()
+        if (data?.players) {
+            setLoading(false)
+          setPlayers(data.players.slice(0, 2))
+
+        }
+      } catch (error) {
+        console.error('Failed to fetch players:', error)
+      }
+    }
+    const fetchTeams = async () => {
+      try {
+        const response = await fetch('https://api.skyshorelubs.com/teams/getTeams')
+        const data = await response.json()
+        if (data?.teams) {
+          setTeams(data.teams)
+          setLoading(false)
+        }
+      } catch (error) {
+        console.error('Failed to fetch teams:', error)
+      }
+    }
+        fetchPlayers();
+        fetchTeams()
     }, []);
 
-    const getTeamName = (teamId: string) => {
-        return teams.find((t) => t.id === teamId)?.name || 'Unknown Team';
-    };
+
+     
+  const getTeam=(teamId:string)=>{
+    const team = teams.filter((team) => team._id === teamId)
+    return team[0]?.teamName
+  }
+    
 
     const filteredPlayers = players.filter((player) => {
-        const matchesSearch = player.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        const matchesSearch = player.playerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             player.position.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesTeam = selectedTeamId === 'all' || player.teamId === selectedTeamId;
         return matchesSearch && matchesTeam;
@@ -43,27 +66,7 @@ export default function PlayersPage() {
                         </p>
                     </div>
                     <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-                        <div style={{ position: 'relative', minWidth: '200px' }}>
-                            <i className="fas fa-filter" style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-color)' }}></i>
-                            <select
-                                value={selectedTeamId}
-                                onChange={(e) => setSelectedTeamId(e.target.value)}
-                                style={{
-                                    width: '100%',
-                                    padding: '10px 15px 10px 40px',
-                                    border: '1px solid #ddd',
-                                    borderRadius: '8px',
-                                    fontSize: '14px'
-                                }}
-                            >
-                                <option value="all">All Teams</option>
-                                {teams.map((team) => (
-                                    <option key={team.id} value={team.id}>
-                                        {team.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                    
 
                         <div className="admin-search">
                             <i className="fas fa-search"></i>
@@ -88,7 +91,10 @@ export default function PlayersPage() {
                             <tr>
                                 <th>Player Name</th>
                                 <th>Position</th>
-                                <th>Jersey No.</th>
+                                <th>Village</th>
+                                 <th>Phone Number</th>
+                                 <th>fatherVillage</th>
+                                 <th>motherVillage</th>
                                 <th>Team</th>
                             </tr>
                         </thead>
@@ -96,7 +102,7 @@ export default function PlayersPage() {
                             {filteredPlayers.length > 0 ? (
                                 filteredPlayers.map((player) => (
                                     <tr key={player.id}>
-                                        <td><strong>{player.name}</strong></td>
+                                        <td><strong>{player.playerName}</strong></td>
                                         <td>
                                             <span style={{
                                                 padding: '4px 12px',
@@ -109,9 +115,21 @@ export default function PlayersPage() {
                                             </span>
                                         </td>
                                         <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
-                                            #{player.jerseyNumber}
+                                            {player.village}
                                         </td>
-                                        <td>{getTeamName(player.teamId)}</td>
+                                         <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
+                                            {player.phoneNumber}
+                                        </td>
+                                        <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
+                                            {player.fatherVillage}
+                                        </td>
+                                        <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
+                                            {player.motherVillage}
+                                        </td>
+                                        
+                                         <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
+                                            {getTeam(player.team)}
+                                        </td>
                                     </tr>
                                 ))
                             ) : (

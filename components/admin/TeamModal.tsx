@@ -26,8 +26,22 @@ const TeamModal = ({ team, isOpen, onClose, onSave }: TeamModalProps) => {
         e.preventDefault();
         setLoading(true);
         try {
-            const updated = await updateTeam(formData);
-            onSave(updated);
+            ///teams/updateStatus
+            const response = await fetch('https://api.skyshorelubs.com/teams/updateStatus', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+            
+            const updated = await response.json();
+            alert(updated.message)
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
+
+            //onSave(updated);
             onClose();
         } catch (error) {
             console.error('Failed to update team', error);
@@ -53,8 +67,8 @@ const TeamModal = ({ team, isOpen, onClose, onSave }: TeamModalProps) => {
                             <label>Team Name</label>
                             <input
                                 type="text"
-                                value={formData.name}
-                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                value={formData.teamName}
+                                onChange={(e) => setFormData({ ...formData, teamName: e.target.value })}
                                 required
                             />
                         </div>
@@ -63,8 +77,8 @@ const TeamModal = ({ team, isOpen, onClose, onSave }: TeamModalProps) => {
                             <label>Coach</label>
                             <input
                                 type="text"
-                                value={formData.coach}
-                                onChange={(e) => setFormData({ ...formData, coach: e.target.value })}
+                                value={formData.coachName}
+                                onChange={(e) => setFormData({ ...formData, coachName: e.target.value })}
                                 required
                             />
                         </div>
@@ -80,13 +94,17 @@ const TeamModal = ({ team, isOpen, onClose, onSave }: TeamModalProps) => {
                         </div>
 
                         <div className="admin-form-group">
-                            <label>Founded Year</label>
-                            <input
-                                type="number"
-                                value={formData.foundedYear}
-                                onChange={(e) => setFormData({ ...formData, foundedYear: parseInt(e.target.value) })}
+                            <label>Paid Fee</label>
+                            <select
+                                value={formData.paid  ? "Yes" : "No"}
+                                onChange={(e) => setFormData({ ...formData, paid: e.target.value === "Yes"? true : false })}
                                 required
-                            />
+                            >
+                                <option value="">Select</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
+                         
                         </div>
                     </div>
 
@@ -94,6 +112,7 @@ const TeamModal = ({ team, isOpen, onClose, onSave }: TeamModalProps) => {
                         <button
                             type="button"
                             onClick={onClose}
+                            disabled={loading}
                             className="btn-admin btn-admin-secondary"
                         >
                             Cancel
