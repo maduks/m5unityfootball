@@ -63,11 +63,7 @@ export default function Header() {
                     </ul>
                   </li>
                 
-                  <li className="nav-item">
-                    <Link className={`nav-link ${pathname === '/contact' ? 'active' : ''}`} href="/contact">
-                      Contact Us
-                    </Link>
-                  </li>
+                 
                 </ul>
               </div>
 
