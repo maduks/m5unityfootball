@@ -4,13 +4,37 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 
-const villages = ['Ameta', 'Alechara', 'Ezioha', 'Inyi', 'Imeama','Ohaire']
+const villages = [
+  { 
+     name: 'Ameta',
+     team:"AMETA FC"
+    },
+    {
+      name: 'Alechara',
+      team:"ALECHARA FC"
+    },
+    {
+      name: 'Ezioha',
+      team:"EZIOHA FC"
+    },
+    {
+      name: 'Inyi',
+      team:"INYI FC"
+    },
+    {
+      name: 'Imeama',
+      team:"IMEAMA FC"
+    },
+    {
+      name: 'Ohaire',
+      team:"OHAIRE FC"
+    }
+]
 export default function TeamRegistrationPage() {
   const router = useRouter()
   const [formData, setFormData] = useState({
     teamName: '',
     village: '',
-   
     coachName: '',
     coachPhone: '',
     coachSignature: '',
@@ -73,9 +97,22 @@ export default function TeamRegistrationPage() {
       setFormData({ ...formData, [name]: (e.target as HTMLInputElement).checked })
     } else {
       setFormData({ ...formData, [name]: value })
+      const Fc = villages.find((village) => village.name === value)
+      if (Fc) {
+        setFormData((prevFormData) => {
+          const newFormData = { ...prevFormData, [name]: value }
+          const foundVillage = villages.find((village) => village.name === value)
+          if (foundVillage) {
+            newFormData.teamName = foundVillage.team
+          }
+          return newFormData
+        })
+      }
     }
   }
 
+
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (isSubmitting) return
@@ -342,19 +379,7 @@ export default function TeamRegistrationPage() {
                         </h4>
                       </div>
 
-                      <div className="form-group col-md-6 mb-4">
-                        <input
-                          type="text"
-                          name="teamName"
-                          value={formData.teamName}
-                          onChange={handleChange}
-                          className="form-control"
-                          placeholder="Enter Team Name *"
-                          required
-                        />
-                      </div>
-
-                      <div className="form-group col-md-6 mb-4">
+                        <div className="form-group col-md-6 mb-4">
                         <select
                           name="village"
                           value={formData.village}
@@ -365,16 +390,31 @@ export default function TeamRegistrationPage() {
                         >
                           <option value="" style={{ color: '#000' }}>Select Village *</option>
                           {villages.map((village) => (
-                            <option key={village} value={village} style={{ color: '#000' }}>
-                              {village}
+                            <option key={village.name} value={village.name} style={{ color: '#000' }}>
+                              {village.name}
                             </option>
                           ))}
                         </select>
                       </div>
 
+                      <div className="form-group col-md-6 mb-4">
+                        <input
+                          type="text"
+                          name="teamName"
+                          disabled
+                          value={formData.teamName}
+                          onChange={handleChange}
+                          className="form-control"
+                          placeholder="Team Name *"
+                          required
+                        />
+                      </div>
+
+                    
+
                       {!isOhaireUnited ? (
                         <>
-                          <div className="col-lg-12" style={{ marginTop: '20px' }}>
+                          {/* <div className="col-lg-12" style={{ marginTop: '20px' }}>
                             <h4 style={{ 
                               color: 'var(--white-color)', 
                               marginBottom: '25px', 
@@ -385,7 +425,7 @@ export default function TeamRegistrationPage() {
                             }}>
                               Village Chairman Details
                             </h4>
-                          </div>
+                          </div> */}
 
                           {/* <div className="form-group col-md-6 mb-4">
                             <input

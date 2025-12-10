@@ -520,10 +520,11 @@ export default function PlayerRegistrationPage() {
                           style={{ color: formData.team ? 'var(--white-color)' : 'rgba(255,255,255,0.5)' }}
                         >
                           <option value="" style={{ color: '#000' }}>Select Team *</option>
-                          {teams.map((team) => (
+                          {teams.map((team:any) => (
+                            (team.paid &&
                             <option key={team._id} value={team._id} style={{ color: '#000' }}>
                               {team.teamName}
-                            </option>
+                            </option> )
                           ))}
                         </select>
                       </div>
