@@ -40,6 +40,17 @@ export default function Header() {
                       About Us
                     </Link>
                   </li>
+
+                   <li className="nav-item">
+                    <Link className={`nav-link ${pathname === '/image-gallery' ? 'active' : ''}`} href="/image-gallery">
+                     Photo Gallery
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className={`nav-link ${pathname === '/faqs' ? 'active' : ''}`} href="/faqs">
+                      Faqs
+                    </Link>
+                  </li>
                   <li className="nav-item submenu">
                     <Link className="nav-link" href="#">Registration</Link>
                     <ul>
@@ -51,20 +62,7 @@ export default function Header() {
                       </li>
                     </ul>
                   </li>
-                  <li className="nav-item submenu">
-                    <Link className="nav-link" href="#">Pages</Link>
-                    <ul>
-                      <li className="nav-item">
-                        <Link className="nav-link" href="/image-gallery">Image Gallery</Link>
-                      </li>
-                      {/* <li className="nav-item">
-                        <Link className="nav-link" href="/video-gallery">Video Gallery</Link>
-                      </li> */}
-                      <li className="nav-item">
-                        <Link className="nav-link" href="/faqs">FAQs</Link>
-                      </li>
-                    </ul>
-                  </li>
+                
                   <li className="nav-item">
                     <Link className={`nav-link ${pathname === '/contact' ? 'active' : ''}`} href="/contact">
                       Contact Us
@@ -73,11 +71,11 @@ export default function Header() {
                 </ul>
               </div>
 
-              <div className="header-btn">
+              {/* <div className="header-btn">
                 <Link href="/contact" className="btn-default btn-highlighted">
                   get started
                 </Link>
-              </div>
+              </div> */}
             </div>
             <div className="navbar-toggle"></div>
           </div>

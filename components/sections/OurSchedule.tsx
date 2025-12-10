@@ -5,26 +5,49 @@ import Image from 'next/image'
 
 const schedules = [
   {
-    dateIcon: '/images/icon-schedule-1.svg',
-    timeIcon: '/images/icon-schedule-2.svg',
-    team1: 'Team A',
-    team2: 'Team B',
-    location: 'Boys Secondary School Mgowo Football Field',
+    dateIcon: '/images/eziohafc.jpeg',
+    timeIcon: '/images/inyifc.jpeg',
+    team1: 'EZIOHA FC',
+    team2: 'INYI FC',
+    location: '26TH DEC, Mgbowo Boys Field',
   },
   {
-    dateIcon: '/images/icon-schedule-3.svg',
-    timeIcon: '/images/icon-schedule-4.svg',
-    team1: 'Team C',
-    team2: 'Team D',
-    location: 'Girls Secondary School Mgowo Football Field',
+    dateIcon: '/images/ametafc.jpeg',
+    timeIcon: '/images/alecharafc.jpeg',
+    team1: 'AMETA FC',
+    team2: 'ALECHARA FC',
+    location: '27TH DEC, Mgbowo Boys Field',
   },
-  // {
-  //   dateIcon: '/images/icon-schedule-5.svg',
-  //   timeIcon: '/images/icon-schedule-6.svg',
-  //   team1: 'Team E',
-  //   team2: 'Team F',
-  //   location: 'Olympiastadion STADIUM',
-  // },
+  {
+    dateIcon: '/images/imeamafc.jpeg',
+    timeIcon: '/images/eziohafc.jpeg',
+    team1: 'IMEAMA FC',
+    team2: 'EZIOHA FC',
+    location: '28TH DEC, Mgbowo Boys Field',
+  },
+    {
+    dateIcon: '/images/ohaire.jpeg',
+    timeIcon: '/images/ametafc.jpeg',
+    team1: 'OHAIRE FC',
+    team2: 'AMETA FC',
+    location: '29TH DEC, Mgbowo Boys Field',
+  },
+
+  {
+    dateIcon: '/images/inyifc.jpeg',
+    timeIcon: '/images/imeamafc.jpeg',
+    team1: 'INYI FC',
+    team2: 'IMEAMA FC',
+    location: '30TH DEC, Mgbowo Boys Field',
+  },
+
+     {
+    dateIcon: '/images/alecharafc.jpeg',
+    timeIcon: '/images/ohaire.jpeg',
+    team1: 'ALECHARA FC',
+    team2: 'OHAIRE FC',
+    location: '31ST DEC, Mgbowo Boys Field',
+  },
 ]
 
 export default function OurSchedule() {
@@ -45,8 +68,8 @@ export default function OurSchedule() {
                 </p>
               </div>
               <div className="schedule-btn wow fadeInUp" data-wow-delay="0.4s">
-                <Link href="/contact" className="btn-default btn-highlighted">
-                  contact us
+                <Link href="/register/player" className="btn-default btn-highlighted">
+                  Register
                 </Link>
               </div>
             </div>
@@ -56,7 +79,7 @@ export default function OurSchedule() {
               {schedules.map((schedule, index) => (
                 <div key={index} className="match-schedule-item wow fadeInUp" data-wow-delay={`${index * 0.2}s`}>
                   <div className="icon-box order-md-1 order-2">
-                    <Image src={schedule.dateIcon} alt="Date" width={50} height={50} />
+                    <Image src={schedule.dateIcon} className="img-fluid" alt="Date" width={100} height={50} />
                   </div>
                   <div className="match-schedule-item-content order-md-2 order-3">
                     <div className="match-content-info">
@@ -70,7 +93,7 @@ export default function OurSchedule() {
                     </div>
                   </div>
                   <div className="icon-box order-md-3 order-2">
-                    <Image src={schedule.timeIcon} alt="Time" width={50} height={50} />
+                    <Image src={schedule.timeIcon} className="img-fluid"  alt="Time" width={100} height={50} />
                   </div>
                 </div>
               ))}

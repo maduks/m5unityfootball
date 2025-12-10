@@ -1872,7 +1872,7 @@ header.main-header .header-sticky.active {
 }
 
 .match-content-info p {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     line-height: normal;
     color: var(--white-color);
@@ -1897,7 +1897,7 @@ header.main-header .header-sticky.active {
 }
 
 .match-content-location h3 {
-    font-size: 22px;
+    font-size: 20px;
     color: var(--white-color);
 }
 

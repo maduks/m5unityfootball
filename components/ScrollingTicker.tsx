@@ -4,9 +4,9 @@ import Image from 'next/image'
 
 export default function ScrollingTicker() {
   const tickerItems = [
-    'explore now',
-    'purchese now',
-    'limited time deal',
+    'Highlights',
+    'Football',
+    'Actions',
     'buy theme',
     'explore now',
     'purchese now',
@@ -24,7 +24,7 @@ export default function ScrollingTicker() {
         <div className="scrolling-content">
           {tickerItems.map((item, index) => (
             <span key={index}>
-              <Image src="/images/icon-football.svg" alt="" width={20} height={20} />
+              {/* <Image src="/images/icon-football.svg" alt="" width={20} height={20} /> */}
               {item}
             </span>
           ))}

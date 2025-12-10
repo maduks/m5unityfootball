@@ -27,11 +27,12 @@ export default function AboutPage() {
       <PageHeader title="About" subtitle="us" />
       {/* <ScrollingTicker /> */}
       <AboutUs />
-      <OurApproach />
-      <OurTalent />
       <OurFeatures />
-      <CompetitionOperations />
-      <WhyChooseUs />
+      {/* <OurApproach /> */}
+      <OurTalent />
+      
+      {/* <CompetitionOperations /> */}
+      {/* <WhyChooseUs /> */}
       {/* <OurSchedule /> */}
       {/* <OurExperience /> */}
       {/* <ClubSuccess /> */}

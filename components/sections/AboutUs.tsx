@@ -52,7 +52,7 @@ export default function AboutUs() {
                 {/* About Us List End */}
 
                 {/* Competition Details Start */}
-                <div className="about-us-details wow fadeInUp" data-wow-delay="0.8s" style={{ width: '100%' }}>
+                <div  className="about-us-details wow fadeInUp" data-wow-delay="0.8s" style={{ width: '100%',display:'none' }}>
                   <div className="row">
                     <div className="col-md-6">
                       <div style={{ marginBottom: '20px' }}>
@@ -81,24 +81,7 @@ export default function AboutUs() {
                 </div>
                 {/* Competition Details End */}
 
-                {/* Contact Us Circle Start */}
-                <div className="contact-us-circle" style={{ alignSelf: 'flex-start', marginTop: '10px' }}>
-                  <Link href="/register/player">
-                    <figure>
-                      <img src="/images/contact-us-circle.svg" alt="Contact" />
-                    </figure>
-
-                    {/* Contact Circle Counter Start */}
-                    <div className="contact-circle-counter">
-                      <h2>
-                        <span className="counter">6</span>
-                      </h2>
-                      <p>Teams</p>
-                    </div>
-                    {/* Contact Circle Counter End */}
-                  </Link>
-                </div>
-                {/* Contact Us Circle End */}
+              
               </div>
               {/* About Us Body End */}
             </div>
@@ -110,43 +93,13 @@ export default function AboutUs() {
             <div className="about-image-box">
               {/* About Us Images Start */}
               <div className="about-us-images">
-                <figure className="image-anime reveal">
-                  <img src="/images/about-us-image.jpg" alt="About Us" />
+                <figure className="image-anime ">
+                  <img src="/images/chairman.JPG" alt="About Us" />
                 </figure>
               </div>
               {/* About Us Images End */}
 
-              {/* Competition Structure Box Start */}
-              <div className="about-coach-box">
-                {/* Structure Content Start */}
-                <div className="about-coach-content" style={{ padding: '20px', background: 'rgba(0,0,0,0.05)', borderRadius: '10px' }}>
-                  <h3 style={{ marginBottom: '15px', fontSize: '22px', fontFamily: 'var(--font-bebas-neue)' }}>
-                    Competition Structure
-                  </h3>
-                  <div style={{ fontSize: '14px', lineHeight: '2' }}>
-                    <p style={{ marginBottom: '10px' }}>
-                      <strong>Central Organizing Committee:</strong> Coordinates all activities from preparation to tournament end
-                    </p>
-                    <p style={{ marginBottom: '10px' }}>
-                      <strong>Technical Committee:</strong> Selects award winners and analyzes player performance
-                    </p>
-                    <p style={{ marginBottom: '10px' }}>
-                      <strong>Disciplinary Committee:</strong> Ensures fair play and handles all disciplinary cases
-                    </p>
-                    <p style={{ marginBottom: '10px' }}>
-                      <strong>Works Committee:</strong> Maintains the pitch and ensures proper match day setup
-                    </p>
-                    <p style={{ marginBottom: '10px' }}>
-                      <strong>Media & Publicity:</strong> Covers matches and promotes M5 activities
-                    </p>
-                    <p>
-                      <strong>Security Committee:</strong> Provides water-tight security at all matches
-                    </p>
-                  </div>
-                </div>
-                {/* Structure Content End */}
-              </div>
-              {/* Competition Structure Box End */}
+            
             </div>
             {/* About Image Box End */}
           </div>

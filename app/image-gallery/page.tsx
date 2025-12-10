@@ -14,7 +14,7 @@ export default function ImageGalleryPage() {
   return (
     <>
       <PageHeader title="Our" subtitle="gallery" />
-      <ScrollingTicker />
+      {/* <ScrollingTicker /> */}
       <PhotoGallery />
     </>
   )

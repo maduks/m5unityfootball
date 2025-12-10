@@ -3,12 +3,15 @@
 import Image from 'next/image'
 
 const galleryImages = [
-  '/images/gallery-1.jpg',
-  '/images/gallery-3.jpg',
-  '/images/gallery-4.jpg',
-  '/images/gallery-6.jpg',
-  '/images/gallery-7.jpg',
-  '/images/gallery-9.jpg',
+  '/images/image_13.jpeg',
+  '/images/image_14.jpeg',
+  '/images/image_cup.jpeg',
+  '/images/image_eight.jpeg',
+  '/images/image_female_participation.jpeg',
+  '/images/image_one.jpeg',
+  '/images/image_seven.jpeg',
+  '/images/image_team_one.jpeg',
+  '/images/image_team_two.jpeg',
 ]
 
 export default function PhotoGallery() {
