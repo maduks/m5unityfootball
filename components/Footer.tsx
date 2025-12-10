@@ -69,9 +69,7 @@ export default function Footer() {
                   <li>
                     <Link href="/register/team">Team Registration</Link>
                   </li>
-                  <li>
-                    <Link href="/faqs">FAQs</Link>
-                  </li>
+                 
                 </ul>
               </div>
             </div>
@@ -87,10 +85,13 @@ export default function Footer() {
                     <Link href="/image-gallery">Image Gallery</Link>
                   </li>
                   <li>
-                    <Link href="/video-gallery">Video Gallery</Link>
+                    <Link href="/register/player">Player</Link>
                   </li>
-                  <li>
-                    <Link href="/contact">Contact Us</Link>
+                   <li>
+                    <Link href="/register/team">Teams</Link>
+                  </li>
+                 <li>
+                    <Link href="/faqs">FAQs</Link>
                   </li>
                 </ul>
               </div>
@@ -98,7 +99,7 @@ export default function Footer() {
 
             <div className="col-lg-3 col-md-5">
               <div className="footer-links footer-contact-details">
-                <h3>Club Information</h3>
+                <h3> Information</h3>
                 <div className="footer-contact-item">
                   <div className="icon-box">
                     <Image src="/images/icon-location-white.svg" alt="Location" width={20} height={20} />
@@ -135,7 +136,7 @@ export default function Footer() {
                   </p>
                 </div>
               </div>
-              <div className="col-md-6">
+              {/* <div className="col-md-6">
                 <div className="footer-privacy-policy">
                   <ul>
                     <li>
@@ -146,7 +147,7 @@ export default function Footer() {
                     </li>
                   </ul>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
