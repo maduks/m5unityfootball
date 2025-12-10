@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 
-const villages = ['Ameta', 'Alechara', 'Ezioha', 'Inyi', 'Imeama']
+const villages = ['Ameta', 'Alechara', 'Ezioha', 'Inyi', 'Imeama','Ohaire']
 export default function TeamRegistrationPage() {
   const router = useRouter()
   const [formData, setFormData] = useState({

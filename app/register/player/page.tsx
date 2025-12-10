@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 
-const villages = ['Ameta', 'Alechara', 'Ezioha', 'Inyi', 'Imeama']
+const villages = ['Ameta', 'Alechara', 'Ezioha', 'Inyi', 'Imeama','Ohaire']
 const positions = ['Goalkeeper', 'Defender', 'Midfielder', 'Forward', 'Winger']
 
 interface Bank {
