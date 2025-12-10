@@ -635,17 +635,17 @@ export default function PlayerRegistrationPage() {
                           required
                         />
                       </div>
-{/* 
+
                       <div className="form-group col-md-6 mb-4">
                         <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
+                          type="nin"
+                          name="nin"
+                          value={formData.nin}
                           onChange={handleChange}
                           className="form-control"
-                          placeholder="Email Address (Optional)"
+                          placeholder="Enter NIN"
                         />
-                      </div> */}
+                      </div>
 
                       <div className="col-lg-12" style={{ marginTop: '20px' }}>
                         <h4 style={{

@@ -3,45 +3,57 @@
 import { useEffect, useState } from 'react';
 import { Team, getTeams } from '@/lib/mockData';
 import TeamModal from '@/components/admin/TeamModal';
+import TeamPlayersModal from '@/components/admin/TeamPlayersModal';
 
 export default function TeamsPage() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedTeam, setSelectedTeam] = useState<Team | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [teams,setTeams] = useState([]);
+    const [teams, setTeams] = useState([]);
+
+    // State for players modal
+    const [isPlayersModalOpen, setIsPlayersModalOpen] = useState(false);
+    const [selectedTeamPlayers, setSelectedTeamPlayers] = useState<any[]>([]);
+    const [selectedTeamName, setSelectedTeamName] = useState('');
 
     useEffect(() => {
         fetchTeams();
     }, []);
 
-    
+
 
     const handleEdit = (team: any) => {
         setSelectedTeam(team);
         setIsModalOpen(true);
     };
 
-    const handleSave = (updatedTeam: any) => {
-        setTeams((teams:any) => teams.map((t:any) => (t.id === updatedTeam.id ? updatedTeam : t)));
+    const handleViewPlayers = (team: any) => {
+        setSelectedTeamPlayers(team.players || []);
+        setSelectedTeamName(team.teamName);
+        setIsPlayersModalOpen(true);
     };
 
-    const filteredTeams = teams.filter((team:any) =>
+    const handleSave = (updatedTeam: any) => {
+        setTeams((teams: any) => teams.map((t: any) => (t.id === updatedTeam.id ? updatedTeam : t)));
+    };
+
+    const filteredTeams = teams.filter((team: any) =>
         team?.teamName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         team?.village?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     const fetchTeams = async () => {
-      try {
-        const response = await fetch('https://api.skyshorelubs.com/teams/getTeams')
-        const data = await response.json()
-        if (data?.teams) {
-          setTeams(data.teams)
-          setLoading(false)
+        try {
+            const response = await fetch('https://api.skyshorelubs.com/teams/getTeams')
+            const data = await response.json()
+            if (data?.teams) {
+                setTeams(data.teams)
+                setLoading(false)
+            }
+        } catch (error) {
+            console.error('Failed to fetch teams:', error)
         }
-      } catch (error) {
-        console.error('Failed to fetch teams:', error)
-      }
     }
 
     return (
@@ -79,18 +91,19 @@ export default function TeamsPage() {
                                 <th>Coach</th>
                                 <th>Total Players</th>
                                 <th>Paid</th>
-                                <th style={{ textAlign: 'right' }}>Actions</th>
+                                <th style={{ textAlign: 'right' }}>Edit</th>
+                                <th style={{ textAlign: 'right' }}>Players</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredTeams.length > 0 ? (
-                                filteredTeams.map((team:any) => (
+                                filteredTeams.map((team: any) => (
                                     <tr key={team.id}>
                                         <td><strong>{team.teamName}</strong></td>
                                         <td>{team.village}</td>
                                         <td>{team.coachName}</td>
-                                        <td>{team.players.length}</td>
-                                        <td>{team.paid ==true? "Yes":"No"}</td>
+                                        <td>{team.players?.length || 0}</td>
+                                        <td>{team.paid == true ? "Yes" : "No"}</td>
 
                                         <td style={{ textAlign: 'right' }}>
                                             <button
@@ -101,11 +114,20 @@ export default function TeamsPage() {
                                                 <i className="fas fa-edit"></i>
                                             </button>
                                         </td>
+                                        <td style={{ textAlign: 'right' }}>
+                                            <button
+                                                onClick={() => handleViewPlayers(team)}
+                                                className="btn-icon"
+                                                title="View Players"
+                                            >
+                                                <i className="fas fa-eye"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan={5} className="empty-state">
+                                    <td colSpan={7} className="empty-state">
                                         No teams found .
                                     </td>
                                 </tr>
@@ -121,6 +143,14 @@ export default function TeamsPage() {
                 onClose={() => setIsModalOpen(false)}
                 onSave={handleSave}
             />
+
+            <TeamPlayersModal
+                teamName={selectedTeamName}
+                players={selectedTeamPlayers}
+                isOpen={isPlayersModalOpen}
+                onClose={() => setIsPlayersModalOpen(false)}
+            />
+
         </div>
     );
 }
