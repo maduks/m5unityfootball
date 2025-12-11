@@ -46,8 +46,8 @@ export default function PageFaqs() {
           <div className="col-lg-4">
             <div className="page-single-sidebar">
               <div className="page-category-list wow fadeInUp">
-                <h4 style={{ 
-                  color: 'var(--white-color)', 
+                <h4 style={{
+                  color: 'var(--white-color)',
                   marginBottom: '20px',
                   fontSize: '18px',
                   fontFamily: 'var(--font-bebas-neue)'
@@ -57,7 +57,7 @@ export default function PageFaqs() {
                 <ul>
                   {registrationLinks.map((link) => (
                     <li key={link.id}>
-                      <Link href={link.link} style={{ 
+                      <Link href={link.link} style={{
                         display: 'block',
                         padding: '15px',
                         marginBottom: '10px',
@@ -68,22 +68,22 @@ export default function PageFaqs() {
                         textDecoration: 'none',
                         color: 'var(--white-color)'
                       }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.background = 'rgba(255,255,255,0.15)'
-                        e.currentTarget.style.transform = 'translateX(5px)'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.background = 'rgba(255,255,255,0.1)'
-                        e.currentTarget.style.transform = 'translateX(0)'
-                      }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = 'rgba(255,255,255,0.15)'
+                          e.currentTarget.style.transform = 'translateX(5px)'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'rgba(255,255,255,0.1)'
+                          e.currentTarget.style.transform = 'translateX(0)'
+                        }}
                       >
-                        <strong style={{ 
+                        <strong style={{
                           display: 'block',
                           marginBottom: '5px',
                           color: 'var(--accent-color)',
                           fontFamily: 'var(--font-bebas-neue)'
                         }}>{link.title}</strong>
-                        <small style={{ 
+                        <small style={{
                           fontSize: '12px',
                           color: 'rgba(255,255,255,0.8)'
                         }}>{link.description}</small>

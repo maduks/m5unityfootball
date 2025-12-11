@@ -8,6 +8,7 @@ export default function PlayersPage() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedTeamId, setSelectedTeamId] = useState<string>('all');
+    const [selectedPassport, setSelectedPassport] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchPlayers = async () => {
@@ -42,8 +43,8 @@ export default function PlayersPage() {
 
 
 
-  const getTeam = (teamId: string) => {
-        const team = teams.filter((team:any) => team._id === teamId)
+    const getTeam = (teamId: string) => {
+        const team = teams.filter((team: any) => team._id === teamId)
         return team[0]?.teamName
     }
 
@@ -88,6 +89,7 @@ export default function PlayersPage() {
                     <table className="admin-table">
                         <thead>
                             <tr>
+                                <th>Passport</th>
                                 <th>Player Name</th>
                                 <th>Position</th>
                                 <th>Village</th>
@@ -101,6 +103,20 @@ export default function PlayersPage() {
                             {filteredPlayers.length > 0 ? (
                                 filteredPlayers.map((player) => (
                                     <tr key={player.id}>
+                                        <td>
+                                            <div
+                                                style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', backgroundColor: '#eee', cursor: 'pointer' }}
+                                                onClick={() => player.passport && setSelectedPassport(player.passport)}
+                                            >
+                                                {player.passport ? (
+                                                    <img src={player.passport} alt={player.playerName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                ) : (
+                                                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#aaa' }}>
+                                                        <i className="fas fa-user"></i>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </td>
                                         <td><strong>{player.playerName}</strong></td>
                                         <td>
                                             <span style={{
@@ -142,6 +158,36 @@ export default function PlayersPage() {
                     </table>
                 )}
             </div>
-        </div>
+
+            {
+                selectedPassport && (
+                    <div
+                        className="admin-modal"
+                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000 }}
+                        onClick={() => setSelectedPassport(null)}
+                    >
+                        <div
+                            className="admin-modal-content"
+                            style={{ maxWidth: '500px', width: '90%', padding: '20px', position: 'relative' }}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <div className="admin-modal-header" style={{ borderBottom: 'none', paddingBottom: '10px' }}>
+                                <h3 style={{ margin: 0 }}>Player Passport</h3>
+                                <button onClick={() => setSelectedPassport(null)} className="close-btn">
+                                    <i className="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div style={{ width: '100%', height: '400px', backgroundColor: '#f5f5f5', borderRadius: '8px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <img
+                                    src={selectedPassport}
+                                    alt="Player Passport"
+                                    style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+        </div >
     );
 }

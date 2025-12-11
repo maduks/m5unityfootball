@@ -6,20 +6,21 @@ export interface Player {
   fatherVillage: string;
   motherVillage: string;
   village: string;
-  team:string;
+  team: string;
   position: string;
   jerseyNumber: number;
   teamId: string;
+  passport?: string;
 }
 
 export interface Team {
   id: string;
-  _id:string;
+  _id: string;
   teamName: string;
   logo: string;
   coachName: string;
   foundedYear: number;
-  paid:boolean;
+  paid: boolean;
   village: string;
 }
 
@@ -31,7 +32,7 @@ const TEAMS: Team[] = [
     logo: '/images/teams/mgbowo-united.png',
     coachName: 'John Doe',
     foundedYear: 2018,
-    paid:true,
+    paid: true,
     village: 'Mgbowo',
   },
   {
@@ -41,7 +42,7 @@ const TEAMS: Team[] = [
     logo: '/images/teams/unity-fc.png',
     coachName: 'Jane Smith',
     foundedYear: 2019,
-    paid:true,
+    paid: true,
     village: 'Amata',
   },
   {
@@ -51,7 +52,7 @@ const TEAMS: Team[] = [
     logo: '/images/teams/warriors-fc.png',
     coachName: 'Mike Johnson',
     foundedYear: 2020,
-    paid:true,
+    paid: true,
     village: 'Inyi',
   },
 ];

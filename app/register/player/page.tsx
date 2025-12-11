@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 
-const villages = ['Ameta', 'Alechara', 'Ezioha', 'Inyi', 'Imeama','Ohaire']
+const villages = ['Ameta', 'Alechara', 'Ezioha', 'Inyi', 'Imeama', 'Ohaire']
 const positions = ['Goalkeeper', 'Defender', 'Midfielder', 'Forward', 'Winger']
 
 interface Bank {
@@ -32,14 +32,20 @@ export default function PlayerRegistrationPage() {
     motherVillage: '',
     teamCoach: '',
     agreeToTerms: false,
+    passport: '',
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
   const [banks, setBanks] = useState<Bank[]>([])
   const [selectedBank, setSelectedBank] = useState<string>('')
   const [accountNumber, setAccountNumber] = useState<string>('')
   const [isVerifying, setIsVerifying] = useState(false)
   const [validationError, setValidationError] = useState<string>('')
   const [isNameVerified, setIsNameVerified] = useState(false)
+
+  // Drag and drop state
+  const [dragActive, setDragActive] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   // Countdown timer state
   const [timeLeft, setTimeLeft] = useState({
@@ -193,6 +199,61 @@ export default function PlayerRegistrationPage() {
     }
   }
 
+  const uploadFile = async (file: File) => {
+    setIsUploading(true)
+    const uploadData = new FormData()
+    uploadData.append('file', file)
+    uploadData.append('fileName', file.name)
+    uploadData.append('folder', '/players')
+
+    try {
+      // Replace 'YOUR_PRIVATE_API_KEY' with your actual private key
+      const response = await fetch('https://upload.imagekit.io/api/v1/files/upload', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Basic ' + btoa('private_vyWrxontNcFcJ8CcnbgZWwxorS4=' + ':')
+        },
+        body: uploadData
+      })
+
+      const data = await response.json()
+      if (data.url) {
+        setFormData(prev => ({ ...prev, passport: data.url }))
+      } else {
+        throw new Error('Upload failed')
+      }
+    } catch (error) {
+      console.error('Upload failed:', error)
+      alert('Photo upload failed. Please try again.')
+    } finally {
+      setIsUploading(false)
+    }
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) uploadFile(file)
+  }
+
+  const handleDrag = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(true)
+    } else if (e.type === "dragleave") {
+      setDragActive(false)
+    }
+  }
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragActive(false)
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      uploadFile(e.dataTransfer.files[0])
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (isSubmitting) return
@@ -206,6 +267,11 @@ export default function PlayerRegistrationPage() {
     // Check if name is verified
     if (!isNameVerified || !formData.playerName) {
       alert('Please verify your bank account to populate your name before submitting.')
+      return
+    }
+
+    if (!formData.passport) {
+      alert('Please upload a passport photograph.')
       return
     }
 
@@ -227,9 +293,9 @@ export default function PlayerRegistrationPage() {
       const data = await res.json()
       alert(data?.message || 'Player registered successfully')
       router.push('/success')
-    } catch (error) {
-      console.error('Player registration failed:', error)
-      alert('Registration failed. Please try again.')
+    } catch (error:any) {
+      console.error('Player registration failed:', error.message)
+      alert('Registration failed. Please try again. '+error.message)
     } finally {
       setIsSubmitting(false)
     }
@@ -463,6 +529,79 @@ export default function PlayerRegistrationPage() {
                         </h4>
                       </div>
 
+                      <div className="form-group col-md-12 mb-4">
+                        <label style={{ color: 'var(--white-color)', marginBottom: '10px', display: 'block' }}>
+                          Passport Photograph *
+                        </label>
+                        <div
+                          onDragEnter={handleDrag}
+                          onDragLeave={handleDrag}
+                          onDragOver={handleDrag}
+                          onDrop={handleDrop}
+                          onClick={() => inputRef.current?.click()}
+                          style={{
+                            border: `2px dashed ${dragActive ? 'var(--accent-color)' : 'rgba(255,255,255,0.3)'}`,
+                            borderRadius: '10px',
+                            padding: '30px',
+                            textAlign: 'center',
+                            cursor: 'pointer',
+                            backgroundColor: dragActive ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.2)',
+                            transition: 'all 0.3s ease',
+                            position: 'relative'
+                          }}
+                        >
+                          <input
+                            ref={inputRef}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            style={{ display: 'none' }}
+                          />
+
+                          {formData.passport ? (
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                              <div style={{
+                                width: '100px',
+                                height: '100px',
+                                borderRadius: '50%',
+                                overflow: 'hidden',
+                                marginBottom: '15px',
+                                border: '3px solid var(--accent-color)'
+                              }}>
+                                <img src={formData.passport} alt="Passport Preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                              </div>
+                              <p style={{ color: '#2fc73b', margin: 0 }}>✓ Photo uploaded</p>
+                              <small style={{ color: 'rgba(255,255,255,0.6)' }}>Click or drag to replace</small>
+                            </div>
+                          ) : (
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                              <i className="fas fa-cloud-upload-alt" style={{ fontSize: '40px', color: 'rgba(255,255,255,0.5)', marginBottom: '15px' }}></i>
+                              <p style={{ color: 'var(--white-color)', margin: '0 0 5px 0' }}>Drag & Drop your passport here</p>
+                              <small style={{ color: 'rgba(255,255,255,0.5)' }}>or click to browse</small>
+                            </div>
+                          )}
+
+                          {isUploading && (
+                            <div style={{
+                              position: 'absolute',
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              background: 'rgba(0,0,0,0.7)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              borderRadius: '10px'
+                            }}>
+                              <div className="spinner-border text-light" role="status">
+                                <span className="sr-only">Loading...</span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
                       <div className="form-group col-md-6 mb-4">
                         <select
                           name="village"
@@ -520,11 +659,11 @@ export default function PlayerRegistrationPage() {
                           style={{ color: formData.team ? 'var(--white-color)' : 'rgba(255,255,255,0.5)' }}
                         >
                           <option value="" style={{ color: '#000' }}>Select Team *</option>
-                          {teams.map((team:any) => (
+                          {teams.map((team: any) => (
                             (team.paid &&
-                            <option key={team._id} value={team._id} style={{ color: '#000' }}>
-                              {team.teamName}
-                            </option> )
+                              <option key={team._id} value={team._id} style={{ color: '#000' }}>
+                                {team.teamName}
+                              </option>)
                           ))}
                         </select>
                       </div>

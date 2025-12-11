@@ -5,30 +5,30 @@ import { useRouter } from 'next/navigation'
 import PageHeader from '@/components/PageHeader'
 
 const villages = [
-  { 
-     name: 'Ameta',
-     team:"AMETA FC"
-    },
-    {
-      name: 'Alechara',
-      team:"ALECHARA FC"
-    },
-    {
-      name: 'Ezioha',
-      team:"EZIOHA FC"
-    },
-    {
-      name: 'Inyi',
-      team:"INYI FC"
-    },
-    {
-      name: 'Imeama',
-      team:"IMEAMA FC"
-    },
-    {
-      name: 'Ohaire',
-      team:"OHAIRE FC"
-    }
+  {
+    name: 'Ameta',
+    team: "AMETA FC"
+  },
+  {
+    name: 'Alechara',
+    team: "ALECHARA FC"
+  },
+  {
+    name: 'Ezioha',
+    team: "EZIOHA FC"
+  },
+  {
+    name: 'Inyi',
+    team: "INYI FC"
+  },
+  {
+    name: 'Imeama',
+    team: "IMEAMA FC"
+  },
+  {
+    name: 'Ohaire',
+    team: "OHAIRE FC"
+  }
 ]
 export default function TeamRegistrationPage() {
   const router = useRouter()
@@ -45,7 +45,7 @@ export default function TeamRegistrationPage() {
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
-  
+
   // Countdown timer state
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -54,10 +54,10 @@ export default function TeamRegistrationPage() {
     seconds: 0,
   })
   const [isRegistrationClosed, setIsRegistrationClosed] = useState(false)
-  
+
   // Set registration deadline (change this to your actual deadline)
   const registrationDeadline = new Date('2025-12-23T23:59:59').getTime()
-  
+
   // Countdown timer effect
   useEffect(() => {
     const calculateTimeLeft = () => {
@@ -112,17 +112,17 @@ export default function TeamRegistrationPage() {
   }
 
 
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (isSubmitting) return
-    
+
     // Check if registration is closed
     if (isRegistrationClosed) {
       alert('Registration has closed. The deadline has passed.')
       return
     }
-    
+
     setIsSubmitting(true)
 
     try {
@@ -168,11 +168,11 @@ export default function TeamRegistrationPage() {
                   Register Your Team for <span>M5 Unity Football Cup 2025</span>
                 </h2>
                 <p className="wow fadeInUp" data-wow-delay="0.4s">
-                  Every team shall pay a non-refundable registration fee of ₦10,000 to the organizers before 
-                  commencement of the competition. In the event of failure to pay before kick-off date, or anytime 
+                  Every team shall pay a non-refundable registration fee of ₦10,000 to the organizers before
+                  commencement of the competition. In the event of failure to pay before kick-off date, or anytime
                   during the competition, the organizers shall deduct the ₦10,000 from the team&apos;s prize money.
                 </p>
-                
+
                 {/* Countdown Timer */}
                 <div className="wow fadeInUp" data-wow-delay="0.6s" style={{
                   marginTop: '40px',
@@ -238,9 +238,9 @@ export default function TeamRegistrationPage() {
                           textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
                           letterSpacing: '1px'
                         }}>{String(timeLeft.days).padStart(2, '0')}</div>
-                        <div style={{ 
-                          fontSize: '13px', 
-                          color: '#e84d01', 
+                        <div style={{
+                          fontSize: '13px',
+                          color: '#e84d01',
                           marginTop: '8px',
                           fontWeight: 'bold',
                           fontFamily: 'var(--font-bebas-neue)',
@@ -268,9 +268,9 @@ export default function TeamRegistrationPage() {
                           textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
                           letterSpacing: '1px'
                         }}>{String(timeLeft.hours).padStart(2, '0')}</div>
-                        <div style={{ 
-                          fontSize: '13px', 
-                          color: '#e84d01', 
+                        <div style={{
+                          fontSize: '13px',
+                          color: '#e84d01',
                           marginTop: '8px',
                           fontWeight: 'bold',
                           fontFamily: 'var(--font-bebas-neue)',
@@ -298,9 +298,9 @@ export default function TeamRegistrationPage() {
                           textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
                           letterSpacing: '1px'
                         }}>{String(timeLeft.minutes).padStart(2, '0')}</div>
-                        <div style={{ 
-                          fontSize: '13px', 
-                          color: '#e84d01', 
+                        <div style={{
+                          fontSize: '13px',
+                          color: '#e84d01',
                           marginTop: '8px',
                           fontWeight: 'bold',
                           fontFamily: 'var(--font-bebas-neue)',
@@ -328,9 +328,9 @@ export default function TeamRegistrationPage() {
                           textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
                           letterSpacing: '1px'
                         }}>{String(timeLeft.seconds).padStart(2, '0')}</div>
-                        <div style={{ 
-                          fontSize: '13px', 
-                          color: '#e84d01', 
+                        <div style={{
+                          fontSize: '13px',
+                          color: '#e84d01',
                           marginTop: '8px',
                           fontWeight: 'bold',
                           fontFamily: 'var(--font-bebas-neue)',
@@ -347,15 +347,15 @@ export default function TeamRegistrationPage() {
 
           <div className="row">
             <div className="col-lg-12">
-              <div style={{ 
-                display: 'block', 
-                width: '100%', 
+              <div style={{
+                display: 'block',
+                width: '100%',
                 marginTop: '50px',
                 borderRadius: '20px',
                 overflow: 'hidden'
               }}>
-                <div className="contact-form dark-section" style={{ 
-                  width: '100%', 
+                <div className="contact-form dark-section" style={{
+                  width: '100%',
                   margin: '0',
                   maxWidth: '100%'
                 }}>
@@ -367,9 +367,9 @@ export default function TeamRegistrationPage() {
                   <form onSubmit={handleSubmit} className="wow fadeInUp" data-wow-delay="0.2s">
                     <div className="row">
                       <div className="col-lg-12">
-                        <h4 style={{ 
-                          color: 'var(--white-color)', 
-                          marginBottom: '25px', 
+                        <h4 style={{
+                          color: 'var(--white-color)',
+                          marginBottom: '25px',
                           paddingBottom: '15px',
                           borderBottom: '2px solid rgba(255,255,255,0.1)',
                           fontSize: '22px',
@@ -379,7 +379,7 @@ export default function TeamRegistrationPage() {
                         </h4>
                       </div>
 
-                        <div className="form-group col-md-6 mb-4">
+                      <div className="form-group col-md-6 mb-4">
                         <select
                           name="village"
                           value={formData.village}
@@ -410,7 +410,7 @@ export default function TeamRegistrationPage() {
                         />
                       </div>
 
-                    
+
 
                       {!isOhaireUnited ? (
                         <>
@@ -466,9 +466,9 @@ export default function TeamRegistrationPage() {
                       ) : (
                         <>
                           <div className="col-lg-12" style={{ marginTop: '20px' }}>
-                            <h4 style={{ 
-                              color: 'var(--white-color)', 
-                              marginBottom: '25px', 
+                            <h4 style={{
+                              color: 'var(--white-color)',
+                              marginBottom: '25px',
                               paddingBottom: '15px',
                               borderBottom: '2px solid rgba(255,255,255,0.1)',
                               fontSize: '22px',
@@ -517,9 +517,9 @@ export default function TeamRegistrationPage() {
                       )}
 
                       <div className="col-lg-12" style={{ marginTop: '20px' }}>
-                        <h4 style={{ 
-                          color: 'var(--white-color)', 
-                          marginBottom: '25px', 
+                        <h4 style={{
+                          color: 'var(--white-color)',
+                          marginBottom: '25px',
                           paddingBottom: '15px',
                           borderBottom: '2px solid rgba(255,255,255,0.1)',
                           fontSize: '22px',
@@ -574,16 +574,16 @@ export default function TeamRegistrationPage() {
                           border: '1px solid rgba(255,255,255,0.2)',
                           backdropFilter: 'blur(10px)'
                         }}>
-                          <h5 style={{ 
-                            marginBottom: '15px', 
+                          <h5 style={{
+                            marginBottom: '15px',
                             color: 'var(--accent-color)',
                             fontSize: '18px',
                             fontFamily: 'var(--font-bebas-neue)'
                           }}>
                             Important Notes
                           </h5>
-                          <ul style={{ 
-                            marginLeft: '20px', 
+                          <ul style={{
+                            marginLeft: '20px',
                             lineHeight: '2',
                             color: 'rgba(255,255,255,0.9)',
                             fontSize: '14px'
@@ -599,8 +599,8 @@ export default function TeamRegistrationPage() {
                       </div>
 
                       <div className="form-group col-md-12 mb-4">
-                        <label style={{ 
-                          display: 'flex', 
+                        <label style={{
+                          display: 'flex',
                           alignItems: 'center',
                           color: 'var(--white-color)',
                           cursor: 'pointer',
@@ -612,7 +612,7 @@ export default function TeamRegistrationPage() {
                             checked={formData.agreeToTerms}
                             onChange={handleChange}
                             required
-                            style={{ 
+                            style={{
                               marginRight: '10px',
                               width: '18px',
                               height: '18px',
@@ -625,8 +625,8 @@ export default function TeamRegistrationPage() {
 
                       <div className="col-lg-12">
                         <div className="contact-form-btn">
-                          <button 
-                            type="submit" 
+                          <button
+                            type="submit"
                             className="btn-default btn-highlighted"
                             disabled={isRegistrationClosed || isSubmitting}
                             style={{
