@@ -23,7 +23,7 @@ export default function PlayerRegistrationPage() {
     dateOfBirth: '',
     team: '',
     position: '',
-    nin: '',
+    // nin: '',
     phoneNumber: '',
     email: '',
     fatherName: '',
@@ -775,7 +775,7 @@ export default function PlayerRegistrationPage() {
                           required
                         />
                       </div>
-
+{/* 
                       <div className="form-group col-md-6 mb-4">
                         <input
                           type="nin"
@@ -785,7 +785,7 @@ export default function PlayerRegistrationPage() {
                           className="form-control"
                           placeholder="Enter NIN"
                         />
-                      </div>
+                      </div> */}
 
                       <div className="col-lg-12" style={{ marginTop: '20px' }}>
                         <h4 style={{

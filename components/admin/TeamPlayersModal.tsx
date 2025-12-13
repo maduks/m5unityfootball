@@ -40,7 +40,7 @@ const TeamPlayersModal = ({ teamName, players, isOpen, onClose }: TeamPlayersMod
                                 <tr>
                                     <th>Name</th>
                                     <th>Position</th>
-                                    <th>Phone Number</th>
+                                    {/* <th>Phone Number</th> */}
                                     <th>Father's Village</th>
                                     <th>Mother's Village</th>
                                 </tr>
@@ -60,6 +60,7 @@ const TeamPlayersModal = ({ teamName, players, isOpen, onClose }: TeamPlayersMod
                                                 {player.position}
                                             </span>
                                         </td>
+                                        {/* <td>{player.phoneNumber || '-'}</td> */}
                                         <td>{player.fatherVillage || '-'}</td>
                                         <td>{player.motherVillage || '-'}</td>
                                     </tr>
