@@ -18,7 +18,7 @@ export default function PlayersPage() {
                 const data = await response.json()
                 if (data?.players) {
                     setLoading(false)
-                    setPlayers(data.players.slice(0, 2))
+                    setPlayers(data.players)
 
                 }
             } catch (error) {
