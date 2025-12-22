@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="footer-box dark-section">
         <div className="container">
           <div className="row">
-        
+
 
             <div className="col-lg-4">
               <div className="about-footer">
@@ -20,8 +20,8 @@ export default function Footer() {
                 </div>
                 <div className="about-footer-content">
                   <p>
-                    Mgbowo Unity Football Cup Competition (M5) - . 
-                    Founded in 2018 to foster peace, unity, and harmonious relationships amongst the five villages 
+                    Mgbowo Unity Football Cup Competition (M5) - .
+                    Founded in 2018 to foster peace, unity, and harmonious relationships amongst the five villages
                     of Mgbowo.
                   </p>
                 </div>
@@ -69,7 +69,7 @@ export default function Footer() {
                   <li>
                     <Link href="/register/team">Team Registration</Link>
                   </li>
-                 
+
                 </ul>
               </div>
             </div>
@@ -85,12 +85,15 @@ export default function Footer() {
                     <Link href="/image-gallery">Image Gallery</Link>
                   </li>
                   <li>
+                    <Link href="/players-roster">Players Roster</Link>
+                  </li>
+                  <li>
                     <Link href="/register/player">Player</Link>
                   </li>
-                   <li>
+                  <li>
                     <Link href="/register/team">Teams</Link>
                   </li>
-                 <li>
+                  <li>
                     <Link href="/faqs">FAQs</Link>
                   </li>
                 </ul>

@@ -33,7 +33,7 @@ export default function Header() {
                 <ul className="navbar-nav mr-auto" id="menu">
                   <li className="nav-item">
                     <Link className="nav-link" href="/">Home</Link>
-                  
+
                   </li>
                   <li className="nav-item">
                     <Link className={`nav-link ${pathname === '/about' ? 'active' : ''}`} href="/about">
@@ -41,9 +41,14 @@ export default function Header() {
                     </Link>
                   </li>
 
-                   <li className="nav-item">
+                  <li className="nav-item">
                     <Link className={`nav-link ${pathname === '/image-gallery' ? 'active' : ''}`} href="/image-gallery">
-                     Photo Gallery
+                      Photo Gallery
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className={`nav-link ${pathname === '/players-roster' ? 'active' : ''}`} href="/players-roster">
+                      Players Roster
                     </Link>
                   </li>
                   <li className="nav-item">
@@ -62,8 +67,8 @@ export default function Header() {
                       </li>
                     </ul>
                   </li>
-                
-                 
+
+
                 </ul>
               </div>
 
