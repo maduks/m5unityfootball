@@ -1,6 +1,7 @@
 
 export interface Player {
   id: string;
+  _id: string;
   playerName: string;
   phoneNumber: string;
   fatherVillage: string;

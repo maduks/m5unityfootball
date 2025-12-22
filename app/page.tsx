@@ -14,7 +14,7 @@ import ClubSuccess from '@/components/sections/ClubSuccess'
 import OurTestimonial from '@/components/sections/OurTestimonial'
 import CTABox from '@/components/sections/CTABox'
 import OurFaqs from '@/components/sections/OurFaqs'
-import OurBlog from '@/components/sections/OurBlog'
+import TeamRosters from '@/components/sections/TeamRosters'
 import { initAnimations } from '@/lib/animations'
 
 export default function Home() {
@@ -35,6 +35,8 @@ export default function Home() {
 
       <OurSchedule />
       <MatchHighlights />
+
+      <TeamRosters />
 
       {/* <ClubSuccess />
       <OurTestimonial />

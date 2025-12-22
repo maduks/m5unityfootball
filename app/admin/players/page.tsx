@@ -48,12 +48,30 @@ export default function PlayersPage() {
         return team[0]?.teamName
     }
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 10;
+
+    // Reset pagination when filters change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [searchTerm, selectedTeamId]);
+
     const filteredPlayers = players.filter((player) => {
         const matchesSearch = player.playerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
             player.position.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesTeam = selectedTeamId === 'all' || player.teamId === selectedTeamId;
         return matchesSearch && matchesTeam;
     });
+
+    // Calculate pagination
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentPlayers = filteredPlayers.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(filteredPlayers.length / itemsPerPage);
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page);
+    };
 
     return (
         <div>
@@ -62,12 +80,10 @@ export default function PlayersPage() {
                     <div>
                         <h2>Players</h2>
                         <p style={{ margin: 0, fontSize: '14px', color: 'var(--text-color)' }}>
-                            View all registered players
+                            View all registered players ({filteredPlayers.length})
                         </p>
                     </div>
                     <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
-
-
                         <div className="admin-search">
                             <i className="fas fa-search"></i>
                             <input
@@ -86,76 +102,102 @@ export default function PlayersPage() {
                         <p>Loading players...</p>
                     </div>
                 ) : (
-                    <table className="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Passport</th>
-                                <th>Player Name</th>
-                                <th>Position</th>
-                                <th>Village</th>
-                                <th>Phone Number</th>
-                                <th>fatherVillage</th>
-                                <th>motherVillage</th>
-                                <th>Team</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredPlayers.length > 0 ? (
-                                filteredPlayers.map((player) => (
-                                    <tr key={player.id}>
-                                        <td>
-                                            <div
-                                                style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', backgroundColor: '#eee', cursor: 'pointer' }}
-                                                onClick={() => player.passport && setSelectedPassport(player.passport)}
-                                            >
-                                                {player.passport ? (
-                                                    <img src={player.passport} alt={player.playerName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                                ) : (
-                                                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#aaa' }}>
-                                                        <i className="fas fa-user"></i>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </td>
-                                        <td><strong>{player.playerName}</strong></td>
-                                        <td>
-                                            <span style={{
-                                                padding: '4px 12px',
-                                                backgroundColor: '#f0f0f0',
-                                                borderRadius: '4px',
-                                                fontSize: '13px',
-                                                fontWeight: '600'
-                                            }}>
-                                                {player.position}
-                                            </span>
-                                        </td>
-                                        <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
-                                            {player.village}
-                                        </td>
-                                        <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
-                                            {player.phoneNumber}
-                                        </td>
-                                        <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
-                                            {player.fatherVillage}
-                                        </td>
-                                        <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
-                                            {player.motherVillage}
-                                        </td>
+                    <>
+                        <table className="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Passport</th>
+                                    <th>Player Name</th>
+                                    <th>Position</th>
+                                    <th>Village</th>
+                                    <th>Phone Number</th>
+                                    <th>Father's Village</th>
+                                    <th>Mother's Village</th>
+                                    <th>Team</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {currentPlayers.length > 0 ? (
+                                    currentPlayers.map((player) => (
+                                        <tr key={player._id}>
+                                            <td>
+                                                <div
+                                                    style={{ width: '40px', height: '40px', borderRadius: '50%', overflow: 'hidden', backgroundColor: '#eee', cursor: 'pointer' }}
+                                                    onClick={() => player.passport && setSelectedPassport(player.passport)}
+                                                >
+                                                    {player.passport ? (
+                                                        <img src={player.passport} alt={player.playerName} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                                    ) : (
+                                                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#aaa' }}>
+                                                            <i className="fas fa-user"></i>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </td>
+                                            <td><strong>{player.playerName}</strong></td>
+                                            <td>
+                                                <span style={{
+                                                    padding: '4px 12px',
+                                                    backgroundColor: '#f0f0f0',
+                                                    borderRadius: '4px',
+                                                    fontSize: '13px',
+                                                    fontWeight: '600'
+                                                }}>
+                                                    {player.position}
+                                                </span>
+                                            </td>
+                                            <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
+                                                {player.village}
+                                            </td>
+                                            <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
+                                                {player.phoneNumber}
+                                            </td>
+                                            <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
+                                                {player.fatherVillage}
+                                            </td>
+                                            <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
+                                                {player.motherVillage}
+                                            </td>
 
-                                        <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
-                                            {getTeam(player.team)}
+                                            <td style={{ fontFamily: 'monospace', fontWeight: '600' }}>
+                                                {getTeam(player.team)}
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan={8} className="empty-state">
+                                            No players found matching your criteria.
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan={4} className="empty-state">
-                                        No players found matching your criteria.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                )}
+                            </tbody>
+                        </table>
+
+                        {totalPages > 1 && (
+                            <div className="admin-pagination" style={{ paddingBottom: '30px' }}>
+                                <button
+                                    className="pagination-btn"
+                                    onClick={() => handlePageChange(currentPage - 1)}
+                                    disabled={currentPage === 1}
+                                >
+                                    <i className="fas fa-chevron-left"></i> Previous
+                                </button>
+
+                                <div className="pagination-info">
+                                    Page {currentPage} of {totalPages}
+                                </div>
+
+                                <button
+                                    className="pagination-btn"
+                                    onClick={() => handlePageChange(currentPage + 1)}
+                                    disabled={currentPage === totalPages}
+                                >
+                                    Next <i className="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
 
