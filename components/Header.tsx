@@ -32,8 +32,7 @@ export default function Header() {
               <div className="nav-menu-wrapper">
                 <ul className="navbar-nav mr-auto" id="menu">
                   <li className="nav-item">
-                    <Link className="nav-link" href="/">Home</Link>
-
+                    <Link className={`nav-link ${pathname === '/' ? 'active' : ''}`} href="/">Home</Link>
                   </li>
                   <li className="nav-item">
                     <Link className={`nav-link ${pathname === '/about' ? 'active' : ''}`} href="/about">

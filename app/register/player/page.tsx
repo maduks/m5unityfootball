@@ -57,7 +57,7 @@ export default function PlayerRegistrationPage() {
   const [isRegistrationClosed, setIsRegistrationClosed] = useState(false)
 
   // Set registration deadline (change this to your actual deadline)
-  const registrationDeadline = new Date('2025-12-26T23:59:59').getTime()
+  const registrationDeadline = new Date('2025-12-28T23:59:59').getTime()
 
   // Countdown timer effect
   useEffect(() => {
